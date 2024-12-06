@@ -1,0 +1,206 @@
+
+
+.MovieShowWrapper {
+    display: flex;
+    
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    margin-top: 5rem;
+    padding: 10px;
+    box-shadow: 0px 5px 5px -5px rgba(0, 0, 0, 0.5);
+  }
+  
+  .loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    z-index: 9999;
+  }
+  
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  .loadingOverlay p {
+    color: #ffffff;
+    font-size: 1.8rem;
+    margin-top: 20px;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    animation: blink 1.5s infinite;
+  }
+  
+  .mediaHeading {
+    width: 100%;
+  }
+  
+  .mediaHeading h1 {
+    margin-bottom: 1.5rem;
+    font-family: "Agdasima", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 2.2rem;
+    color: #000;
+    margin-left: 2rem;
+  }
+  
+  .mediaCard {
+    display: flex;
+    justify-content: center;
+    align-items: cente;
+    flex-wrap: wrap;
+  }
+  
+  .media {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 2rem;
+  }
+  
+ 
+
+  .mediaImage{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.4s ease-in-out;
+   
+  }
+  
+  .mediaImage img {
+   
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px 1px #000;
+    max-width: 100%;
+    height: 240px;
+   
+  }
+
+  .mediaImage:hover {
+    transform: scale(1.04);
+    
+  }
+  
+ 
+  .mediaImage span {
+   border: none;
+   height: 35px;
+   width: 35px;
+   border-radius: 50%;
+   background-color: #f8c700;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: #333;
+   padding: 2px;
+   font-family: "Noto Serif", serif;
+   font-size: 15px;
+   font-weight: 600;
+   position: relative; /* Position relative to the parent container */
+   bottom: 20px; 
+   opacity: 0; /* Initially hidden */
+   transition: opacity 0.3s ease
+   
+  
+   
+}
+
+.mediaImage:hover span {
+  opacity: 1; /* Make visible on hover */
+}
+
+
+  
+  .mediaInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+    position: relative;
+    bottom: 25px;
+    padding: 10px;
+  }
+  
+  .mediaInfo h4 {
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 0;
+    text-align: center;
+    width: 230px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    font-size: 1rem;
+    line-height: 1.4;
+    font-size: 18px;
+  }
+  
+  .mediaInfo p {
+    margin: 8px 0;
+    color: grey;
+    border-bottom: 1px solid grey;
+  }
+  
+  .buttons {
+    text-align: center;
+    border: none;
+    display: flex;
+    justify-content: space-evenly;
+    width: 90%;
+    margin: 10px;
+  }
+  
+  .buttons p {
+    font-family: "Agdasima", sans-serif;
+  }
+  
+  .btnPrev, .btnNext {
+    border: none;
+    outline: none;
+    color: #fff;
+    background-color: #333;
+    font-size: 18px;
+    font-family: "Agdasima", sans-serif;
+    border-radius: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  
+  .btnPrev:hover, .btnNext:hover {
+    background-color: #444;
+    color: #ccc;
+    border-color: #666;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .btnPrev:active, .btnNext:active {
+    transform: translateY(1px);
+    box-shadow: none;
+  }
+  

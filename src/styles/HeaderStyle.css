@@ -1,0 +1,50 @@
+.navBarWrapper {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+.navBarWrapper .logo {
+  color: #fff;
+  font-size: 40px;
+  letter-spacing: 1px;
+  font-family: "Jaro", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+}
+
+.navBarWrapper .navLinks {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.navBarWrapper .links {
+  font-size: 25px;
+  font-family: "Agdasima", sans-serif;
+  color: #fff;
+}
+
+.navBarWrapper .links:hover {
+  color: #ccc;
+}
+
+.navBarWrapper .loginButton {
+  margin-left: auto;
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  font-family: "Roboto", sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navBarWrapper .loginButton:hover {
+  background-color: #fff;
+  color: #000;
+}

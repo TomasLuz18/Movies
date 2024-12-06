@@ -1,0 +1,103 @@
+/* CoverPageStyle.css */
+
+
+.cover {
+  text-align: center;
+  width: 80%;
+  margin: 18px auto 0;
+  position: relative;
+  text-transform: capitalize;
+}
+
+
+.cover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-bottom-left-radius: 240px;
+  border-bottom-right-radius: 240px;
+}
+
+.cover > img {
+  height: 500px;
+  width: 100%;
+  border-bottom-left-radius: 230px;
+  border-bottom-right-radius: 230px;
+}
+
+
+.cover .coverText {
+  position: absolute;
+  color: #fff;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 30%;
+  text-shadow: 1px 1px 3px black;
+  line-height: 1;
+}
+
+
+.cover .coverText > h1 {
+  font-size: 3rem;
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 1px;
+}
+
+
+.cover .coverText > p {
+  font-size: 20px;
+}
+
+
+.cover .coverText em {
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+
+.searchBar {
+  position: relative;
+}
+
+.searchBar > input,
+.searchBar > button {
+  margin: auto;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  position: absolute;
+  top: 100%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  height: 45px;
+}
+
+.searchBar > input {
+  
+  width: 70%;
+  box-shadow: 1px 1px 6px 2px grey;
+  padding: 8px;
+  font-size: 16px;
+}
+
+.searchBar > input::placeholder {
+  font-size: 14px;
+}
+
+.searchBar > button {
+  padding: 0 25px;
+  left: 81%;
+  font-size: 15px;
+  background: linear-gradient(90deg, rgba(100, 100, 100, 1), rgba(50, 50, 50, 1) 100%);
+  font-weight: bolder;
+  cursor: pointer;
+}
