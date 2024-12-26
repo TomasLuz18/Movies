@@ -19,8 +19,8 @@ const Header = () => {
                     <div className="navLinks">
                         {tabItems.map((nav, index) => (
                             <NavLink to={nav.link} key={index}>
-                            
-                                <Tab className="links" label={nav.name}/>
+
+                                <Tab className="links" label={nav.name} />
                             </NavLink>
 
                         ))}

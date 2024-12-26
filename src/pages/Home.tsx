@@ -11,22 +11,13 @@ import coverImage from "../assets/img2.jpg";
         <div>
         <CoverPage
          title="Movies"
-        description="Welcome, to the best site in Ualg"
-        catchyPhrase="never stop dreaming"
+        description="Welcome, to the best site ever made"
+        catchyPhrase="Here you have the best information about movies"
         headerImage={coverImage}
         showSearch={true}
         showHeaderImage={true}
       />
       
-      <Display 
-        
-        apiEndPoint ={nowPlayingMovies}
-        itemHeading="Now Playing Movies"
-        showButtons= {true}
-        moviesOn={true}
-        tvShowOn={false}
-        numberOfMedia={10}
-      />
       <Display  
       apiEndPoint ={popularMovies}
       itemHeading="Popular Movies"
@@ -35,27 +26,26 @@ import coverImage from "../assets/img2.jpg";
         tvShowOn={false}
         numberOfMedia={10}
       />
+
       <Display 
-      apiEndPoint ={topRatedMovies}
-      itemHeading="Top Rated Movies"
-      showButtons= {true}
-        moviesOn={true}
-        tvShowOn={false}
-        numberOfMedia={10}
-      />
-      <Display 
-      apiEndPoint ={upcomingMovies}
-      itemHeading="Upcoming Movies"
-      showButtons= {true}
+        
+        apiEndPoint ={topRatedMovies}
+        itemHeading="Top Rated Movies"
+        showButtons= {true}
         moviesOn={true}
         tvShowOn={false}
         numberOfMedia={10}
       />
 
-
-
-
-
+<Display 
+        
+        apiEndPoint ={upcomingMovies}
+        itemHeading="Upcoming Movies"
+        showButtons= {true}
+        moviesOn={true}
+        tvShowOn={false}
+        numberOfMedia={10}
+      />
         </div>
 
      );

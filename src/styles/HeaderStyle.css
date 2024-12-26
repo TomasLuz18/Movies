@@ -20,17 +20,22 @@
 .navBarWrapper .navLinks {
   flex-grow: 1;
   text-align: center;
+
 }
 
 .navBarWrapper .links {
   font-size: 25px;
   font-family: "Agdasima", sans-serif;
   color: #fff;
+  margin: 0px 10px;
+  transition: transform 0.3s ease-in-out;
 }
 
 .navBarWrapper .links:hover {
   color: #ccc;
+  transform: scale(1.08);
 }
+
 
 .navBarWrapper .loginButton {
   margin-left: auto;
