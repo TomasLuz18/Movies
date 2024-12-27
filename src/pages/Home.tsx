@@ -10,9 +10,9 @@ import coverImage from "../assets/img2.jpg";
     return ( 
         <div>
         <CoverPage
-         title="Movies"
-        description="Welcome, to the best site ever made"
-        catchyPhrase="Here you have the best information about movies"
+         title="Welcome to Movies"
+        description="the best site ever made"
+        catchyPhrase="Here you have the best information about all the movies and shows"
         headerImage={coverImage}
         showSearch={true}
         showHeaderImage={true}
