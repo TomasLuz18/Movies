@@ -1,5 +1,6 @@
-import React from 'react';
-import '../styles/CoverPageStyle.css'; // Importa o arquivo CSS
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/CoverPageStyle.css";
 
 interface CoverProps {
   title: string;
@@ -18,6 +19,15 @@ const CoverPage: React.FC<CoverProps> = ({
   showHeaderImage,
   showSearch,
 }) => {
+  const [searchText, setSearchText] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchText.trim() !== "") {
+      navigate(`/search?query=${encodeURIComponent(searchText)}`);
+    }
+  };
+
   return (
     <div className="cover">
       <div className="coverText">
@@ -28,8 +38,13 @@ const CoverPage: React.FC<CoverProps> = ({
       {showHeaderImage && <img src={headerImage} alt="img" />}
       {showSearch && (
         <div className="searchBar">
-          <input type="search" placeholder="Search a Movie OR TV Show..." />
-          <button>Search</button>
+          <input
+            type="search"
+            placeholder="Search a Movie OR TV Show..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <button onClick={handleSearch}>Search</button>
         </div>
       )}
     </div>

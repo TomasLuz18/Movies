@@ -6,6 +6,7 @@ declare global {
       user?: {
         userId: string;
         email: string;
+        username: string; // Adiciona o campo username
       };
     }
   }

@@ -50,6 +50,31 @@ export class UserWorker {
     });
   }
 
+  public updateUser(userId: string, updates: Partial<IUser>): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.db.update(
+        { _id: userId },
+        { $set: updates },
+        {},
+        (err: Error | null) => {
+          if (err) reject(err);
+          else resolve();
+        }
+      );
+    });
+  }
+
+  public deleteUser(userId: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.db.remove({ _id: userId }, {}, (err: Error | null, numRemoved: number) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+  }
+  
+  
+
   public activateUser(token: string): Promise<IUser | null> {
     return new Promise((resolve, reject) => {
       this.db.findOne({ confirmationToken: token }, (err: Error | null, doc: IUser | null) => {

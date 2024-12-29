@@ -1,14 +1,18 @@
-// pages/ProtectedPage.tsx
 import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 
 const ProtectedPage: React.FC = () => {
   const { user, logout } = useContext(AuthContext);
 
+  if (!user) {
+    return <p>Carregando... ou não autenticado!</p>;
+  }
+
   return (
     <div style={styles.container}>
       <h1>Protected Page</h1>
-      <p>Bem-vindo, {user.email}!</p>
+      {/* Use non-null assertion or optional chaining */}
+      <p>Bem-vindo, {user!.email}!</p>
       <button onClick={logout} style={styles.button}>
         Logout
       </button>

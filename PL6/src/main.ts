@@ -19,10 +19,13 @@ app.use("/", express.static(path.join(__dirname, "../../Lab8_rest_api_client/dis
 // Middleware para CORS
 app.use(function (req: Request, res: Response, next: NextFunction) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS, PATCH, PUT");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   next();
 });
+
+
+
 
 // Função auxiliar para tratamento de rotas assíncronas
 const asyncHandler = (fn: (req: Request, res: Response, next: NextFunction) => Promise<any>) => {
@@ -122,12 +125,9 @@ app.get("/activate", asyncHandler(async (req: Request, res: Response) => {
     res.status(400).send("Token inválido ou conta já ativada.");
   }
 }));
-
-// Login de Usuário
 app.post("/login", asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
-  // Validação básica
   if (!email || !password) {
     return res.status(400).json({ message: "Dados incompletos." });
   }
@@ -141,15 +141,14 @@ app.post("/login", asyncHandler(async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Conta não ativada. Verifique seu e-mail." });
   }
 
-  // Verifica a senha
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     return res.status(400).json({ message: "Senha incorreta." });
   }
 
-  // Geração do Token JWT
+  // Incluímos o `username` no token
   const token = jwt.sign(
-    { userId: user._id, email: user.email },
+    { userId: user._id, email: user.email, username: user.username },
     process.env.JWT_SECRET || "defaultsecret",
     { expiresIn: "1h" }
   );
@@ -157,7 +156,7 @@ app.post("/login", asyncHandler(async (req: Request, res: Response) => {
   res.json({ token, message: "Login bem-sucedido." });
 }));
 
-// Middleware para Verificar Token JWT
+
 const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
 
@@ -169,21 +168,88 @@ const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
         return res.sendStatus(403); // Forbidden
       }
 
-      // Verifica se o payload contém as propriedades esperadas
-      if (typeof decoded === 'object' && decoded !== null && 'userId' in decoded && 'email' in decoded) {
+      // Inclui `username` no objeto user do request
+      if (typeof decoded === 'object' && decoded !== null && 'userId' in decoded && 'email' in decoded && 'username' in decoded) {
         req.user = {
           userId: decoded.userId as string,
           email: decoded.email as string,
+          username: decoded.username as string,
         };
         next();
       } else {
-        return res.sendStatus(403); // Forbidden se o payload não tiver as propriedades esperadas
+        return res.sendStatus(403); // Forbidden
       }
     });
   } else {
     res.sendStatus(401); // Unauthorized
   }
 };
+app.delete(
+  "/users/delete",
+  authenticateJWT,
+  asyncHandler(async (req: Request, res: Response) => {
+    // Verifica se o usuário existe
+    const user = await userWorker.findUserById(req.user!.userId);
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado." });
+    }
+
+    // Apaga do banco de dados
+    await userWorker.deleteUser(req.user!.userId);
+
+    // Retorna sucesso
+    res.json({ message: "Conta apagada com sucesso." });
+  })
+);
+
+app.patch(
+  "/users/update-name",
+  authenticateJWT,
+  asyncHandler(async (req: Request, res: Response) => {
+    const { username } = req.body;
+
+    if (!username) {
+      return res.status(400).json({ message: "Nome inválido." });
+    }
+
+    const user = await userWorker.findUserById(req.user!.userId);
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado." });
+    }
+
+    await userWorker.updateUser(req.user!.userId, { username });
+
+    res.json({ message: "Nome atualizado com sucesso." });
+  })
+);
+
+app.patch(
+  "/users/update-password",
+  authenticateJWT,
+  asyncHandler(async (req: Request, res: Response) => {
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ message: "Dados incompletos." });
+    }
+
+    const user = await userWorker.findUserById(req.user!.userId);
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado." });
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Senha atual incorreta." });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    await userWorker.updateUser(req.user!.userId, { password: hashedPassword });
+
+    res.json({ message: "Senha atualizada com sucesso." });
+  })
+);
+
 
 // Rota Protegida
 app.get("/protected", authenticateJWT, asyncHandler(async (req: Request, res: Response) => {

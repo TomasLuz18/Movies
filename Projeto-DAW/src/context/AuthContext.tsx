@@ -1,30 +1,32 @@
 // context/AuthContext.tsx
-import React, { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
+import React, { createContext, useState, useEffect } from "react";
 
 interface AuthContextType {
   token: string | null;
   setToken: (token: string | null) => void;
-  user: any;
+  user: { username: string; email: string } | null;
   logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   token: null,
-  setToken: () => {},
+  setToken: () => { },
   user: null,
-  logout: () => {},
+  logout: () => { },
 });
-
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ username: string; email: string } | null>(null);
 
   useEffect(() => {
     if (token) {
       try {
-        const decoded: any = jwtDecode(token);
-        setUser(decoded);
+        const decoded: any = jwtDecode(token); // Decodifica o token
+        setUser({
+          username: decoded.username, // Agora inclui o username
+          email: decoded.email,
+        });
       } catch (err) {
         console.error("Token inválido.");
         setUser(null);

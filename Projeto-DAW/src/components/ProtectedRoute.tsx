@@ -1,20 +1,19 @@
-// components/ProtectedRoute.tsx
-import React, { useContext } from "react";
+import React, { FC, ReactNode, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-interface Props {
-  children: JSX.Element;
+interface ProtectedRouteProps {
+  children: ReactNode;
 }
 
-const ProtectedRoute: React.FC<Props> = ({ children }) => {
-  const { token } = useContext(AuthContext);
+const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
+  const { user } = useContext(AuthContext);
 
-  if (!token) {
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

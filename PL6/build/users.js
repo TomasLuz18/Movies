@@ -64,6 +64,26 @@ class UserWorker {
             });
         });
     }
+    updateUser(userId, updates) {
+        return new Promise((resolve, reject) => {
+            this.db.update({ _id: userId }, { $set: updates }, {}, (err) => {
+                if (err)
+                    reject(err);
+                else
+                    resolve();
+            });
+        });
+    }
+    deleteUser(userId) {
+        return new Promise((resolve, reject) => {
+            this.db.remove({ _id: userId }, {}, (err, numRemoved) => {
+                if (err)
+                    reject(err);
+                else
+                    resolve();
+            });
+        });
+    }
     activateUser(token) {
         return new Promise((resolve, reject) => {
             this.db.findOne({ confirmationToken: token }, (err, doc) => {

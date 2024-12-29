@@ -52,7 +52,7 @@ app.use("/", express_1.default.static(path_1.default.join(__dirname, "../../Lab8
 // Middleware para CORS
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS, PATCH, PUT");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
     next();
 });
@@ -136,10 +136,8 @@ app.get("/activate", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0
         res.status(400).send("Token inválido ou conta já ativada.");
     }
 })));
-// Login de Usuário
 app.post("/login", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
-    // Validação básica
     if (!email || !password) {
         return res.status(400).json({ message: "Dados incompletos." });
     }
@@ -150,16 +148,14 @@ app.post("/login", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     if (!user.isActive) {
         return res.status(400).json({ message: "Conta não ativada. Verifique seu e-mail." });
     }
-    // Verifica a senha
     const isMatch = yield bcrypt_1.default.compare(password, user.password);
     if (!isMatch) {
         return res.status(400).json({ message: "Senha incorreta." });
     }
-    // Geração do Token JWT
-    const token = jsonwebtoken_1.default.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET || "defaultsecret", { expiresIn: "1h" });
+    // Incluímos o `username` no token
+    const token = jsonwebtoken_1.default.sign({ userId: user._id, email: user.email, username: user.username }, process.env.JWT_SECRET || "defaultsecret", { expiresIn: "1h" });
     res.json({ token, message: "Login bem-sucedido." });
 })));
-// Middleware para Verificar Token JWT
 const authenticateJWT = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {
@@ -168,16 +164,17 @@ const authenticateJWT = (req, res, next) => {
             if (err) {
                 return res.sendStatus(403); // Forbidden
             }
-            // Verifica se o payload contém as propriedades esperadas
-            if (typeof decoded === 'object' && decoded !== null && 'userId' in decoded && 'email' in decoded) {
+            // Inclui `username` no objeto user do request
+            if (typeof decoded === 'object' && decoded !== null && 'userId' in decoded && 'email' in decoded && 'username' in decoded) {
                 req.user = {
                     userId: decoded.userId,
                     email: decoded.email,
+                    username: decoded.username,
                 };
                 next();
             }
             else {
-                return res.sendStatus(403); // Forbidden se o payload não tiver as propriedades esperadas
+                return res.sendStatus(403); // Forbidden
             }
         });
     }
@@ -185,6 +182,46 @@ const authenticateJWT = (req, res, next) => {
         res.sendStatus(401); // Unauthorized
     }
 };
+app.delete("/users/delete", authenticateJWT, asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // Verifica se o usuário existe
+    const user = yield userWorker.findUserById(req.user.userId);
+    if (!user) {
+        return res.status(404).json({ message: "Usuário não encontrado." });
+    }
+    // Apaga do banco de dados
+    yield userWorker.deleteUser(req.user.userId);
+    // Retorna sucesso
+    res.json({ message: "Conta apagada com sucesso." });
+})));
+app.patch("/users/update-name", authenticateJWT, asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username } = req.body;
+    if (!username) {
+        return res.status(400).json({ message: "Nome inválido." });
+    }
+    const user = yield userWorker.findUserById(req.user.userId);
+    if (!user) {
+        return res.status(404).json({ message: "Usuário não encontrado." });
+    }
+    yield userWorker.updateUser(req.user.userId, { username });
+    res.json({ message: "Nome atualizado com sucesso." });
+})));
+app.patch("/users/update-password", authenticateJWT, asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: "Dados incompletos." });
+    }
+    const user = yield userWorker.findUserById(req.user.userId);
+    if (!user) {
+        return res.status(404).json({ message: "Usuário não encontrado." });
+    }
+    const isMatch = yield bcrypt_1.default.compare(currentPassword, user.password);
+    if (!isMatch) {
+        return res.status(400).json({ message: "Senha atual incorreta." });
+    }
+    const hashedPassword = yield bcrypt_1.default.hash(newPassword, 10);
+    yield userWorker.updateUser(req.user.userId, { password: hashedPassword });
+    res.json({ message: "Senha atualizada com sucesso." });
+})));
 // Rota Protegida
 app.get("/protected", authenticateJWT, asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.user) {

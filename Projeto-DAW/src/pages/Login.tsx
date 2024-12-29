@@ -1,15 +1,15 @@
-// Login.tsx
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
   const [error, setError] = useState<string | null>(null);
+  const { setToken } = useContext(AuthContext); // Adicionado para atualizar o token
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,8 +22,10 @@ const Login: React.FC = () => {
     try {
       const response = await axios.post("http://localhost:8080/login", formData);
       const { token } = response.data;
+
       localStorage.setItem("token", token);
-      navigate("/protected"); // Redireciona para uma rota protegida
+      setToken(token); // Atualiza o contexto global com o token
+      navigate("/protected");
     } catch (err: any) {
       setError(err.response?.data?.message || "Erro ao fazer login.");
     }
@@ -59,6 +61,10 @@ const Login: React.FC = () => {
     </div>
   );
 };
+
+
+
+
 
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
