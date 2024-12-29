@@ -1,10 +1,10 @@
 {
     "smtp": {
-        "host": "smtp.office365.com",
+        "host": "smtp.gmail.com",
         "port": 587,
         "auth": {
-            "user": "a81009@ualg.pt",
-            "pass": "M0!16yRB"
+            "user": "movies.site.app@gmail.com",
+            "pass": "Movies2425"
         }
     }
 }
