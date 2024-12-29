@@ -1,3 +1,7 @@
 {"username":"luis","email":"a81009@ualg.pt","password":"$2b$10$5u3f1h4oDLDxkBms.AUBluGqKju6Im9hKQZfe/MeM3sz82vjg5b7q","isActive":false,"confirmationToken":"995f27c5-5c99-4f49-8f56-790ed35e1d1e","_id":"lxATvDUx79XTlhmY"}
 {"username":"luis","email":"a81009@ualg.pt","password":"$2b$10$5u3f1h4oDLDxkBms.AUBluGqKju6Im9hKQZfe/MeM3sz82vjg5b7q","isActive":true,"confirmationToken":"","_id":"lxATvDUx79XTlhmY"}
 {"$$deleted":true,"_id":"lxATvDUx79XTlhmY"}
+{"username":"luis","email":"a81009@ualg.pt","password":"$2b$10$OFSGnw0XolaB7mSu.EjxnOH7d.77Ax8CQw2YOGmkpjcdiiwojOmY.","isActive":false,"confirmationToken":"02fa9862-a50c-44bb-aed7-afefc856dffb","_id":"40XiEAxsbMKXF2yy"}
+{"username":"luis","email":"a81009@ualg.pt","password":"$2b$10$OFSGnw0XolaB7mSu.EjxnOH7d.77Ax8CQw2YOGmkpjcdiiwojOmY.","isActive":true,"confirmationToken":"","_id":"40XiEAxsbMKXF2yy"}
+{"username":"luis rosa","email":"a81009@ualg.pt","password":"$2b$10$OFSGnw0XolaB7mSu.EjxnOH7d.77Ax8CQw2YOGmkpjcdiiwojOmY.","isActive":true,"confirmationToken":"","_id":"40XiEAxsbMKXF2yy"}
+{"$$deleted":true,"_id":"40XiEAxsbMKXF2yy"}

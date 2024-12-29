@@ -12,6 +12,7 @@ import ProtectedPage from "./pages/ProtectedPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import EditAccount from "./pages/EditAccount"; // Importa a nova página
 import SearchResults from "./pages/SearchResults";
+import MovieDetails from "./pages/MovieDetails";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/search" element={<SearchResults />} />
         {/* Outras rotas */}
 
+        <Route path="/movie/:id" element={<MovieDetails />} />
 
         <Route path="/" element={<Home />} />
         <Route path="now_playing" element={<NowPlaying />} />

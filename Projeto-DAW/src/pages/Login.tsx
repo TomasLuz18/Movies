@@ -9,7 +9,7 @@ const Login: React.FC = () => {
     password: "",
   });
   const [error, setError] = useState<string | null>(null);
-  const { setToken } = useContext(AuthContext); // Adicionado para atualizar o token
+  const { setToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,8 +24,8 @@ const Login: React.FC = () => {
       const { token } = response.data;
 
       localStorage.setItem("token", token);
-      setToken(token); // Atualiza o contexto global com o token
-      navigate("/protected");
+      setToken(token);
+      navigate("/"); // Redireciona para a página inicial após login
     } catch (err: any) {
       setError(err.response?.data?.message || "Erro ao fazer login.");
     }
@@ -61,10 +61,6 @@ const Login: React.FC = () => {
     </div>
   );
 };
-
-
-
-
 
 const styles: { [key: string]: React.CSSProperties } = {
   container: {

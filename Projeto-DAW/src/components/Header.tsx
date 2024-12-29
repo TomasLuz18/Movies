@@ -35,7 +35,9 @@ const Header: React.FC = () => {
     <div className="navBarWrapper">
       <AppBar sx={{ padding: '10px', backgroundColor: '#000000' }}>
         <Toolbar>
-          <Typography className="logo">Movies</Typography>
+          <Typography className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+            Movies
+          </Typography>
           <div className="navLinks">
             {tabItems.map((tab, index) => (
               <NavLink to={tab.link} key={index}>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { bearerToken } from "../modules/ApiLinks";
+import { useNavigate } from "react-router-dom";
 import "../styles/DisplayStyle.css";
 
 interface Media {
@@ -39,6 +40,7 @@ const Display: React.FC<DataProps> = ({
   const [currentPage, setCurrentPage] = React.useState(1);
   const [totalPages, setTotalPages] = React.useState(1);
   const [loading, setLoading] = React.useState(true); // Default to true
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (customMedia) {
@@ -109,7 +111,11 @@ const Display: React.FC<DataProps> = ({
           </div>
           <div className="mediaCard">
             {showItems.map((items) => (
-              <div className="media" key={items.id}>
+              <div
+                className="media"
+                key={items.id}
+                onClick={() => navigate(`/movie/${items.id}`)} // Navega para a página de detalhes
+              >
                 <div className="mediaImage">
                   <img
                     src={`https://image.tmdb.org/t/p/w200/${items.poster_path}`}
