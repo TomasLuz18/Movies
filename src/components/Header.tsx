@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Tab, Button } from '@mui/material';
-import "../styles/HeaderStyle.css"// importe o CSS puro
+import "../styles/HeaderStyle.css";
 import { NavLink } from 'react-router-dom';
 
 const tabItems = [
@@ -10,7 +10,7 @@ const tabItems = [
     { name: "Tv Shows", link: "tv_shows" },
 ];
 
-const Header = () => {
+const Header: React.FC = () => {
     return (
         <div className="navBarWrapper">
             <AppBar sx={{ padding: '10px', backgroundColor: '#000000' }}>
@@ -19,15 +19,22 @@ const Header = () => {
                     <div className="navLinks">
                         {tabItems.map((nav, index) => (
                             <NavLink to={nav.link} key={index}>
-
                                 <Tab className="links" label={nav.name} />
                             </NavLink>
-
                         ))}
                     </div>
-                    <Button className="loginButton" variant="contained" color="info">
-                        Login
-                    </Button>
+                    <div className="authButtons">
+                        <NavLink to="/login">
+                            <Button className="loginButton" variant="contained" color="info">
+                                Login
+                            </Button>
+                        </NavLink>
+                        <NavLink to="/create_account">
+                            <Button className="signupButton" variant="outlined" color="info" sx={{ marginLeft: '10px' }}>
+                                Sign Up
+                            </Button>
+                        </NavLink>
+                    </div>
                 </Toolbar>
             </AppBar>
         </div>
