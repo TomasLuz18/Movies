@@ -31,7 +31,7 @@ const generateYearOptions = (startYear: number, endYear: number): number[] => {
 
 const FilterBar: React.FC<FilterBarProps> = ({ onFilterChange }) => {
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
-  const [selectedCertification, setSelectedCertification] = useState<string | null>(null);
+  const [selectedCertification] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
 
   // Gerar anos de 1900 até o ano atual

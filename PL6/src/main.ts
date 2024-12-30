@@ -2,8 +2,6 @@ import path from "path";
 import express, { Express, NextFunction, Request, Response } from "express";
 import { serverInfo } from "./serverInfo";
 import * as SMTP from "./SMTP";
-import * as Contacts from "./contacts";
-import { IContact } from "./contacts";
 import { UserWorker, IUser } from "./users";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -42,23 +40,7 @@ app.post("/messages", asyncHandler(async (req: Request, res: Response) => {
   res.send("ok");
 }));
 
-app.get("/contacts", asyncHandler(async (req: Request, res: Response) => {
-  const contactsWorker: Contacts.Worker = new Contacts.Worker();
-  const contacts: IContact[] = await contactsWorker.listContacts();
-  res.json(contacts);
-}));
 
-app.post("/contacts", asyncHandler(async (req: Request, res: Response) => {
-  const contactsWorker: Contacts.Worker = new Contacts.Worker();
-  const contact: IContact = await contactsWorker.addContact(req.body);
-  res.json(contact);
-}));
-
-app.delete("/contacts/:id", asyncHandler(async (req: Request, res: Response) => {
-  const contactsWorker: Contacts.Worker = new Contacts.Worker();
-  await contactsWorker.deleteContact(req.params.id);
-  res.send("ok");
-}));
 
 // ------------------- Rotas de Autenticação -------------------
 const userWorker = new UserWorker();
