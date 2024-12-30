@@ -20,15 +20,7 @@ const NowPlaying = () => {
         numberOfMedia={10}
       />
 
-<Display 
-        
-        apiEndPoint ={airingTodayShows}
-        itemHeading="Now Playing Shows"
-        showButtons= {true}
-        moviesOn={false}
-        tvShowOn={true}
-        numberOfMedia={10}
-      />
+
      
         </div>
 

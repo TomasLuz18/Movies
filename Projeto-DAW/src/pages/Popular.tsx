@@ -18,15 +18,7 @@ const Popular = () => {
         numberOfMedia={10}
       />
 
-      <Display 
-        
-        apiEndPoint ={popularShows}
-        itemHeading="Popular Shows"
-        showButtons= {true}
-        moviesOn={false}
-        tvShowOn={true}
-        numberOfMedia={10}
-      />
+      
         </div>
 
       );

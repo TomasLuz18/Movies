@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// O bearerToken deve continuar para chamar a API do TMDB
-import { bearerToken } from "../modules/ApiLinks"; // Importar token
+import { useNavigate } from "react-router-dom";
+import { bearerToken } from "../modules/ApiLinks";
 
 interface Media {
   id: number;
   title: string;
-  poster_path: string;
+  poster_path: string | null;
   release_date: string;
   vote_average: number;
 }
@@ -15,48 +15,46 @@ function Favorites() {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<Media[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // 1. Busca lista de IDs favoritados do back
     async function fetchFavorites() {
       try {
-        // Pega o token JWT do SEU BACKEND guardado no localStorage
-        // (Você salvou isso depois de fazer login)
         const userToken = localStorage.getItem("token");
         if (!userToken) {
-          console.log("Usuário não está logado ou token não existe no localStorage.");
+          console.log("User not logged in or token missing.");
           setLoading(false);
-          return; 
+          return;
         }
 
         const response = await axios.get("http://localhost:8080/favorites", {
           headers: {
-            // AQUI usamos o token do NOSSO backend
             Authorization: `Bearer ${userToken}`,
           },
         });
 
-        const ids = response.data.favorites; // array de movieIds (strings)
-        setFavoriteIds(ids);
+        setFavoriteIds(response.data.favorites);
       } catch (error) {
-        console.error("Erro ao buscar favoritos", error);
+        console.error("Error fetching favorites:", error);
       }
     }
+
     fetchFavorites();
   }, []);
 
   useEffect(() => {
-    // 2. Para cada ID, faz chamada ao TMDB para pegar detalhes do filme
-    async function fetchFavoritesDetails() {
+    async function fetchFavoriteDetails() {
+      if (favoriteIds.length === 0) {
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-
-        // Aqui usamos o token da TMDB (bearerToken)
-        // pois estamos consultando https://api.themoviedb.org
         const promises = favoriteIds.map((id) =>
           axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
             headers: {
-              Authorization: `Bearer ${bearerToken}`, // TOKEN DO TMDB
+              Authorization: `Bearer ${bearerToken}`,
             },
           })
         );
@@ -64,37 +62,40 @@ function Favorites() {
         const movieData = results.map((res) => res.data);
         setFavorites(movieData);
       } catch (error) {
-        console.error("Erro ao buscar detalhes dos favoritos", error);
+        console.error("Error fetching favorite details:", error);
       } finally {
         setLoading(false);
       }
     }
 
-    if (favoriteIds.length > 0) {
-      fetchFavoritesDetails();
-    } else {
-      // se não houver favoritos, podemos setar loading como false
-      setLoading(false);
-    }
+    fetchFavoriteDetails();
   }, [favoriteIds]);
 
   if (loading) {
-    return <div>Carregando favoritos...</div>;
+    return <div>Loading favorites...</div>;
   }
 
   if (favoriteIds.length === 0) {
-    return <div>Você não tem favoritos ainda.</div>;
+    return <div>You have no favorite movies yet.</div>;
   }
 
   return (
     <div>
-      <h2>Seus Filmes Favoritos</h2>
+      <h2>Your Favorite Movies</h2>
       <div className="mediaCard">
         {favorites.map((item) => (
-          <div className="media" key={item.id}>
+          <div
+            className="media"
+            key={item.id}
+            onClick={() => navigate(`/movie/${item.id}`)}
+          >
             <div className="mediaImage">
               <img
-                src={`https://image.tmdb.org/t/p/w200/${item.poster_path}`}
+                src={
+                  item.poster_path
+                    ? `https://image.tmdb.org/t/p/w200/${item.poster_path}`
+                    : "https://dummyimage.com/200x300/cccccc/000000&text=No+Image"
+                }
                 alt={item.title}
               />
               <span>{Math.round(item.vote_average * 10) / 10}</span>

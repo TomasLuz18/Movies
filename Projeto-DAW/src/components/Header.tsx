@@ -9,7 +9,6 @@ const tabItems = [
   { name: "Home", link: "/" },
   { name: "Now playing", link: "/now_playing" },
   { name: "Popular", link: "/popular" },
-  { name: "Tv Shows", link: "/tv_shows" },
 ];
 
 const Header: React.FC = () => {
