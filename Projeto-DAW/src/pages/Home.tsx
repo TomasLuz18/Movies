@@ -72,14 +72,6 @@ const Home: React.FC = () => {
         filters={filters}
       />
 
-      <Section
-        heading="Now Playing"
-        apiEndpoint={nowPlayingMovies}
-        moviesOn={true}
-        tvShowOn={false}
-        numberOfMedia={10}
-        filters={filters}
-      />
     </div>
   );
 };

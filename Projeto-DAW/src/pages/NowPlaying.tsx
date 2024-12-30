@@ -11,7 +11,6 @@ const NowPlaying = () => {
         <div>
            
       <Display 
-        
         apiEndPoint ={nowPlayingMovies}
         itemHeading="Now Playing Movies"
         showButtons= {true}

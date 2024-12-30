@@ -1,7 +1,7 @@
 // FilterBar.tsx
 
 import React, { useState, useEffect } from "react";
-import "../styles/FilterBar.css"; // Importa o CSS
+import "../styles/FilterBarStyle.css"; // Importa o CSS
 
 interface FilterBarProps {
   onFilterChange: (filters: {
