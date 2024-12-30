@@ -11,7 +11,9 @@ export interface IUser {
   password: string;
   isActive: boolean;
   confirmationToken: string;
+  favorites?: string[]; // array de IDs de filmes favoritados
 }
+
 
 export class UserWorker {
   private db: Nedb;
