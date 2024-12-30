@@ -2,7 +2,7 @@
 
 import React from "react";
 import Display from "./Display";
-import "../styles/FilterBar.css"; // Importa o CSS
+import "../styles/FilterBarStyle.css"; // Importa o CSS
 
 interface SectionProps {
     heading: string;

@@ -3,6 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
+// 1. Importe o CSS
+import "../styles/LoginStyle.css";
+
 const Login: React.FC = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -32,16 +35,17 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
+    // 2. Use className em vez de style
+    <div className="login-container">
       <h1>Login</h1>
-      <form onSubmit={handleSubmit} style={styles.form}>
+      <form onSubmit={handleSubmit} className="login-form">
         <input
           type="email"
           name="email"
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
-          style={styles.input}
+          className="login-input"
           required
         />
         <input
@@ -50,51 +54,16 @@ const Login: React.FC = () => {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
-          style={styles.input}
+          className="login-input"
           required
         />
-        <button type="submit" style={styles.button}>
+        <button type="submit" className="login-button">
           Submit
         </button>
       </form>
-      {error && <p style={styles.error}>{error}</p>}
+      {error && <p className="error-text">{error}</p>}
     </div>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-    backgroundColor: "#f5f5f5",
-    padding: "20px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    width: "300px",
-  },
-  input: {
-    margin: "10px 0",
-    padding: "10px",
-    fontSize: "16px",
-  },
-  button: {
-    marginTop: "20px",
-    padding: "10px 20px",
-    fontSize: "16px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    cursor: "pointer",
-  },
-  error: {
-    color: "red",
-    marginTop: "10px",
-  },
 };
 
 export default Login;
