@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 // O bearerToken deve continuar para chamar a API do TMDB
-import { bearerToken } from "../modules/ApiLinks";
+import { bearerToken } from "../modules/ApiLinks"; // Importar token
 
 interface Media {
   id: number;

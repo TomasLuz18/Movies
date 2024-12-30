@@ -4,6 +4,8 @@ import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext"; // <-- Precisamos do token
 import "../styles/DisplayStyle.css";
+import { bearerToken } from "../modules/ApiLinks"; // Importar token
+
 
 // Se você usa "bearerToken" apenas para chamar a API do TMDB,
 // importe se precisar buscar filmes de lá. Ex:
@@ -62,12 +64,11 @@ const Display: React.FC<DataProps> = ({
         setLoading(true);
         try {
           const response = await axios.get(apiEndPoint, {
-            params: { page: currentPage },
             headers: {
-              // Se for chamar a API do TMDB, inclua seu bearerToken do TMDB aqui
-              // Authorization: `Bearer ${bearerToken}`,
+              Authorization: `Bearer ${bearerToken}`, // Usar token centralizado
             },
           });
+
           const { results, total_pages } = response.data;
           setShowItems(results.slice(0, numberOfMedia));
           setTotalPages(total_pages);
