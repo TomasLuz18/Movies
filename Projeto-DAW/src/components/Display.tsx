@@ -39,6 +39,7 @@ const Display: React.FC<DataProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
 
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -71,6 +72,23 @@ const Display: React.FC<DataProps> = ({
     }
   }, [customMedia, currentPage, apiEndPoint, numberOfMedia]);
 
+  useEffect(() => {
+    const fetchFavoriteIds = async () => {
+      if (!token) return;
+      try {
+        const response = await axios.get("http://localhost:8080/favorites", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavoriteIds(response.data.favorites);
+      } catch (error) {
+        console.error("Error fetching favorite IDs:", error);
+      }
+    };
+    fetchFavoriteIds();
+  }, [token]);
+
   const prevItemsPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
@@ -80,6 +98,42 @@ const Display: React.FC<DataProps> = ({
   const nextItemsPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const handleFavoriteClick = async (movieId: string) => {
+    if (!token) {
+      alert("You need to log in to add favorites!");
+      return;
+    }
+
+    const isFavorited = favoriteIds.includes(movieId);
+    try {
+      if (isFavorited) {
+        await axios.delete(`http://localhost:8080/favorites/${movieId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFavoriteIds((prev) => prev.filter((id) => id !== movieId));
+        alert("Favorite removed!");
+      } else {
+        await axios.post(
+          "http://localhost:8080/favorites",
+          { movieId },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setFavoriteIds((prev) => [...prev, movieId]);
+        alert("Added to favorites!");
+      }
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+      alert("An error occurred while updating favorites.");
     }
   };
 
@@ -106,34 +160,52 @@ const Display: React.FC<DataProps> = ({
             <h1>{itemHeading}</h1>
           </div>
           <div className="mediaCard">
-            {showItems.map((item) => (
-              <div className="media" key={item.id}>
-                <div
-                  className="mediaImage"
-                  onClick={() => navigate(`/movie/${item.id}`)}
-                >
-                  <img
-                    src={`https://image.tmdb.org/t/p/w200/${item.poster_path}`}
-                    alt={item.title || item.name}
-                  />
-                  <span>{Math.round(item.vote_average * 10) / 10}</span>
+            {showItems.map((item) => {
+              const isFavorited = favoriteIds.includes(item.id.toString());
+              return (
+                <div className="media" key={item.id}>
+                  <div
+                    className="mediaImage"
+                    onClick={() => navigate(`/movie/${item.id}`)}
+                  >
+                    <img
+                      src={`https://image.tmdb.org/t/p/w200/${item.poster_path}`}
+                      alt={item.title || item.name}
+                    />
+                    <span>{Math.round(item.vote_average * 10) / 10}</span>
+                  </div>
+                  <div className="mediaInfo">
+                    {moviesOn && (
+                      <>
+                        <h4>{item.title}</h4>
+                        <p>{getFormattedDate(item.release_date)}</p>
+                      </>
+                    )}
+                    {tvShowOn && (
+                      <>
+                        <h4>{item.name}</h4>
+                        <p>{getFormattedDate(item.first_air_date)}</p>
+                      </>
+                    )}
+                  </div>
+                  <button
+                    style={{
+                      border: "none",
+                      background: "transparent",
+                      color: isFavorited ? "red" : "grey",
+                      cursor: "pointer",
+                      fontSize: "1.2rem",
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFavoriteClick(item.id.toString());
+                    }}
+                  >
+                    ♥
+                  </button>
                 </div>
-                <div className="mediaInfo">
-                  {moviesOn && (
-                    <>
-                      <h4>{item.title}</h4>
-                      <p>{getFormattedDate(item.release_date)}</p>
-                    </>
-                  )}
-                  {tvShowOn && (
-                    <>
-                      <h4>{item.name}</h4>
-                      <p>{getFormattedDate(item.first_air_date)}</p>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
             {showButtons && !customMedia && (
               <div className="buttons">
                 {currentPage > 1 && (
