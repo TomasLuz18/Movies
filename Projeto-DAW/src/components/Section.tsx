@@ -27,7 +27,6 @@ const Section: React.FC<SectionProps> = ({
 }) => {
     return (
         <div className="section-container">
-            <h2 className="section-heading">{heading}</h2>
             <Display
                 apiEndPoint={apiEndpoint ?? ""}
                 itemHeading={heading}

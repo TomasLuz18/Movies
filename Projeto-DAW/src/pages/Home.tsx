@@ -4,7 +4,7 @@ import FilterBar from "../components/FilterBar";
 import Section from "../components/Section";
 import coverImage from "../assets/img2.jpg";
 
-// Endpoints pré-definidos
+// Predefined endpoints
 import {
   popularMovies,
   topRatedMovies,
@@ -12,7 +12,7 @@ import {
   nowPlayingMovies,
 } from "../modules/ApiLinks";
 
-// Crie uma interface para evitar 'any'
+// Create an interface to avoid 'any'
 interface Filters {
   genre: number | null;
   certification: string | null;
@@ -33,20 +33,20 @@ const Home: React.FC = () => {
   return (
     <div>
       <CoverPage
-        title="Bem-vindo(a) ao Movies"
-        description="O melhor site para se informar sobre filmes e séries!"
-        catchyPhrase="Confira lançamentos, títulos populares e muito mais!"
+        title="Welcome to Movies"
+        description="The best site to stay updated on movies and TV shows!"
+        catchyPhrase="Check out new releases, popular titles, and much more!"
         headerImage={coverImage}
         showSearch={true}
         showHeaderImage={true}
       />
 
-      {/* Filtro */}
+      {/* Filter */}
       <FilterBar onFilterChange={handleFilterChange} />
 
-      {/* Seções */}
+      {/* Sections */}
       <Section
-        heading="Populares"
+        heading="Popular"
         apiEndpoint={popularMovies}
         moviesOn={true}
         tvShowOn={false}
@@ -55,7 +55,7 @@ const Home: React.FC = () => {
       />
 
       <Section
-        heading="Melhor Avaliados"
+        heading="Top Rated"
         apiEndpoint={topRatedMovies}
         moviesOn={true}
         tvShowOn={false}
@@ -64,7 +64,7 @@ const Home: React.FC = () => {
       />
 
       <Section
-        heading="Próximos Lançamentos"
+        heading="Upcoming Releases"
         apiEndpoint={upcomingMovies}
         moviesOn={true}
         tvShowOn={false}
@@ -73,7 +73,7 @@ const Home: React.FC = () => {
       />
 
       <Section
-        heading="Em Cartaz"
+        heading="Now Playing"
         apiEndpoint={nowPlayingMovies}
         moviesOn={true}
         tvShowOn={false}

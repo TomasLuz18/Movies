@@ -8,7 +8,7 @@ export const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
 // Parâmetros padrão (ajuste o language se quiser "en-US")
 const defaultParams = {
-  language: "pt-BR",
+  language: "en-US",
   include_adult: false,
   include_video: false,
   sort_by: "popularity.desc",
@@ -48,19 +48,18 @@ export function getDiscoverTvUrl(options: Record<string, any> = {}) {
 
   return url.toString();
 }
+// =====================================
+// "PRE-MADE" ENDPOINTS FOR MOVIES
+// =====================================
+export const nowPlayingMovies = `${TMDB_BASE_URL}/movie/now_playing?api_key=${apiKey}&language=en-US`;
+export const popularMovies = `${TMDB_BASE_URL}/movie/popular?api_key=${apiKey}&language=en-US`;
+export const topRatedMovies = `${TMDB_BASE_URL}/movie/top_rated?api_key=${apiKey}&language=en-US`;
+export const upcomingMovies = `${TMDB_BASE_URL}/movie/upcoming?api_key=${apiKey}&language=en-US`;
 
 // =====================================
-// ENDPOINTS “PRÉ-PRONTOS” PARA FILMES
+// "PRE-MADE" ENDPOINTS FOR TV SHOWS
 // =====================================
-export const nowPlayingMovies = `${TMDB_BASE_URL}/movie/now_playing?api_key=${apiKey}&language=pt-BR`;
-export const popularMovies = `${TMDB_BASE_URL}/movie/popular?api_key=${apiKey}&language=pt-BR`;
-export const topRatedMovies = `${TMDB_BASE_URL}/movie/top_rated?api_key=${apiKey}&language=pt-BR`;
-export const upcomingMovies = `${TMDB_BASE_URL}/movie/upcoming?api_key=${apiKey}&language=pt-BR`;
-
-// =====================================
-// ENDPOINTS “PRÉ-PRONTOS” PARA SÉRIES
-// =====================================
-export const onTheAirShows = `${TMDB_BASE_URL}/tv/on_the_air?api_key=${apiKey}&language=pt-BR`;
-export const popularShows = `${TMDB_BASE_URL}/tv/popular?api_key=${apiKey}&language=pt-BR`;
-export const topRatedShows = `${TMDB_BASE_URL}/tv/top_rated?api_key=${apiKey}&language=pt-BR`;
-export const airingTodayShows = `${TMDB_BASE_URL}/tv/airing_today?api_key=${apiKey}&language=pt-BR`;
+export const onTheAirShows = `${TMDB_BASE_URL}/tv/on_the_air?api_key=${apiKey}&language=en-US`;
+export const popularShows = `${TMDB_BASE_URL}/tv/popular?api_key=${apiKey}&language=en-US`;
+export const topRatedShows = `${TMDB_BASE_URL}/tv/top_rated?api_key=${apiKey}&language=en-US`;
+export const airingTodayShows = `${TMDB_BASE_URL}/tv/airing_today?api_key=${apiKey}&language=en-US`;
