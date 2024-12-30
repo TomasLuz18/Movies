@@ -1,47 +1,34 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { bearerToken } from "../modules/ApiLinks";
 
-interface Media {
-  id: number;
-  title: string;
-  poster_path: string | null;
-  release_date: string;
-  vote_average: number;
-}
+// Importa as funções do serviço
+import {
+  getFavoriteIds,
+  getFavoritesDetails,
+  Media,
+} from "../modules/FavoritesService";
 
 function Favorites() {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [favorites, setFavorites] = useState<Media[]>([]);
   const [loading, setLoading] = useState(true);
+
   const navigate = useNavigate();
 
+  // 1º Efeito: buscar IDs de favoritos no backend local
   useEffect(() => {
     async function fetchFavorites() {
       try {
-        const userToken = localStorage.getItem("token");
-        if (!userToken) {
-          console.log("User not logged in or token missing.");
-          setLoading(false);
-          return;
-        }
-
-        const response = await axios.get("http://localhost:8080/favorites", {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        });
-
-        setFavoriteIds(response.data.favorites);
+        const ids = await getFavoriteIds(); // <-- chamada ao service
+        setFavoriteIds(ids);
       } catch (error) {
         console.error("Error fetching favorites:", error);
       }
     }
-
     fetchFavorites();
   }, []);
 
+  // 2º Efeito: buscar detalhes dos filmes no TheMovieDB a partir dos IDs
   useEffect(() => {
     async function fetchFavoriteDetails() {
       if (favoriteIds.length === 0) {
@@ -51,15 +38,7 @@ function Favorites() {
 
       try {
         setLoading(true);
-        const promises = favoriteIds.map((id) =>
-          axios.get(`https://api.themoviedb.org/3/movie/${id}`, {
-            headers: {
-              Authorization: `Bearer ${bearerToken}`,
-            },
-          })
-        );
-        const results = await Promise.all(promises);
-        const movieData = results.map((res) => res.data);
+        const movieData = await getFavoritesDetails(favoriteIds); // <-- chamada ao service
         setFavorites(movieData);
       } catch (error) {
         console.error("Error fetching favorite details:", error);
@@ -82,10 +61,7 @@ function Favorites() {
   return (
     <div>
       <h2>Your Favorite Movies</h2>
-      <div className="mediaCard" style={{ marginTop: '100px' }}>
-  {/* Conteúdo da mediaCard */}
-
-        
+      <div className="mediaCard" style={{ marginTop: "100px" }}>
         {favorites.map((item) => (
           <div
             className="media"

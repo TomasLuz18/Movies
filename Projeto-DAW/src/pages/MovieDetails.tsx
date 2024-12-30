@@ -1,38 +1,12 @@
+// pages/MovieDetails.tsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
-import { bearerToken } from "../modules/ApiLinks"; // Importar token
+import "../styles/MovieDetailsStyle.css"; // Continua importando o CSS
 
-// 1. Import do CSS
-import "../styles/MovieDetailsStyle.css";
-
-interface Genre {
-  id: number;
-  name: string;
-}
-
-interface ProductionCompany {
-  id: number;
-  logo_path: string | null;
-  name: string;
-  origin_country: string;
-}
-
-interface MovieDetailsType {
-  title: string;
-  poster_path: string;
-  backdrop_path: string;
-  overview: string;
-  release_date: string;
-  vote_average: number;
-  tagline: string;
-  genres: Genre[];
-  runtime: number;
-  production_companies: ProductionCompany[];
-  budget: number;
-  revenue: number;
-  vote_count: number;
-}
+import {
+  getMovieDetails,
+  MovieDetailsType,
+} from "../modules/MovieDetailsService";
 
 const MovieDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -40,35 +14,21 @@ const MovieDetails: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${bearerToken}`, // Usar token centralizado
-              accept: "application/json",
-            },
-          }
-        );
-        setMovieDetails(response.data);
-      } catch (error) {
-        console.error("Error fetching movie details:", error);
-      } finally {
-        setLoading(false);
-      }
+    const fetchData = async () => {
+      // Chama a função do service
+      if (!id) return;
+      const details = await getMovieDetails(id);
+      setMovieDetails(details);
+      setLoading(false);
     };
-
-    fetchMovieDetails();
+    fetchData();
   }, [id]);
 
   if (loading) {
-    // 2. Use className no lugar de style
     return <p className="loadingText">Loading...</p>;
   }
 
   if (!movieDetails) {
-    // 3. Use className no lugar de style
     return <p className="errorText">Movie details not found!</p>;
   }
 
@@ -93,7 +53,6 @@ const MovieDetails: React.FC = () => {
     : "";
 
   return (
-    // 4. Mantenha o backgroundImage inline (dinamicamente)
     <div
       className="mainContainer"
       style={{

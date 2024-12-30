@@ -1,9 +1,14 @@
 // CreateAccount.tsx
 import React, { useState } from "react";
-import axios from "axios";
+
+// Importa a função e a interface do serviço
+import { createAccountRequest, CreateAccountFormData } from "../modules/UserService";
+
+// 1. Importe o arquivo CSS
+import "../styles/CreateAccountStyle.css";
 
 const CreateAccount: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<CreateAccountFormData>({
     username: "",
     email: "",
     password: "",
@@ -21,11 +26,10 @@ const CreateAccount: React.FC = () => {
     e.preventDefault();
     setMessage(null);
     setError(null);
+
     try {
-      const response = await axios.post("http://localhost:8080/register", {
-        ...formData,
-        age: Number(formData.age),
-      });
+      // Agora chamamos a função do service
+      const response = await createAccountRequest(formData);
       setMessage(response.data.message);
     } catch (err: any) {
       setError(err.response?.data?.message || "Erro ao criar conta.");
@@ -33,16 +37,16 @@ const CreateAccount: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div className="create-account-container">
       <h1>Create Account</h1>
-      <form onSubmit={handleSubmit} style={styles.form}>
+      <form onSubmit={handleSubmit} className="create-account-form">
         <input
           type="text"
           name="username"
           placeholder="Username"
           value={formData.username}
           onChange={handleChange}
-          style={styles.input}
+          className="create-account-input"
           required
         />
         <input
@@ -51,7 +55,7 @@ const CreateAccount: React.FC = () => {
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
-          style={styles.input}
+          className="create-account-input"
           required
         />
         <input
@@ -60,7 +64,7 @@ const CreateAccount: React.FC = () => {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
-          style={styles.input}
+          className="create-account-input"
           required
         />
         <input
@@ -69,55 +73,16 @@ const CreateAccount: React.FC = () => {
           placeholder="Age"
           value={formData.age}
           onChange={handleChange}
-          style={styles.input}
+          className="create-account-input"
         />
-        <button type="submit" style={styles.button}>
+        <button type="submit" className="create-account-button">
           Create Account
         </button>
       </form>
-      {message && <p style={styles.success}>{message}</p>}
-      {error && <p style={styles.error}>{error}</p>}
+      {message && <p className="create-account-success">{message}</p>}
+      {error && <p className="create-account-error">{error}</p>}
     </div>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100vh",
-    backgroundColor: "#f5f5f5",
-    padding: "20px",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    width: "300px",
-  },
-  input: {
-    margin: "10px 0",
-    padding: "10px",
-    fontSize: "16px",
-  },
-  button: {
-    marginTop: "20px",
-    padding: "10px 20px",
-    fontSize: "16px",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    border: "none",
-    cursor: "pointer",
-  },
-  success: {
-    color: "green",
-    marginTop: "10px",
-  },
-  error: {
-    color: "red",
-    marginTop: "10px",
-  },
 };
 
 export default CreateAccount;

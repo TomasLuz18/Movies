@@ -7,7 +7,6 @@ import Popular from "./pages/Popular";
 import Login from "./pages/Login";
 import CreateAccount from "./pages/CreateAccount";
 import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
 import EditAccount from "./pages/EditAccount"; // Importa a nova página
 import SearchResults from "./pages/SearchResults";
 import MovieDetails from "./pages/MovieDetails";

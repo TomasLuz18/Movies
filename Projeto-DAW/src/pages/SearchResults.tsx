@@ -1,37 +1,23 @@
+// pages/SearchResults.tsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Display from "../components/Display";
-import { bearerToken } from "../modules/ApiLinks"; // Importar token
+// Importe a função de busca da pasta modules
+import { fetchSearchResults } from "../modules/Search";
+
 
 const SearchResults: React.FC = () => {
     const location = useLocation();
-    const query = new URLSearchParams(location.search).get("query");
-    const [results, setResults] = useState([]);
+    const query = new URLSearchParams(location.search).get("query") || "";
+    const [results, setResults] = useState<any[]>([]);
 
     useEffect(() => {
-        const fetchSearchResults = async () => {
-            if (!query) return;
-
-            try {
-
-                const response = await axios.get(
-                    `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${bearerToken}`, // Usar token centralizado
-                            accept: "application/json",
-                        },
-                    }
-                );
-
-                setResults(response.data.results);
-            } catch (error) {
-                console.error("Error fetching search results:", error);
-            }
+        // Chame a função do 'modules/searchModule'
+        const getResults = async () => {
+            const data = await fetchSearchResults(query);
+            setResults(data);
         };
-
-        fetchSearchResults();
+        getResults();
     }, [query]);
 
     return (

@@ -1,17 +1,23 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 
-// 1. Importe o CSS
+// 1. Importe o serviço de login
+import { doLogin } from "../modules/LoginService"; 
+import type { LoginFormData } from "../modules/LoginService";
+
+// 2. Importe o CSS (parte visual)
 import "../styles/LoginStyle.css";
 
 const Login: React.FC = () => {
-  const [formData, setFormData] = useState({
+  // Estados locais do formulário
+  const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
   const [error, setError] = useState<string | null>(null);
+
+  // AuthContext e navigate (para lidar com o token e redirecionamento)
   const { setToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -19,13 +25,13 @@ const Login: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Agora chamamos a função do serviço no submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    try {
-      const response = await axios.post("http://localhost:8080/login", formData);
-      const { token } = response.data;
 
+    try {
+      const token = await doLogin(formData);    // <-- Lógica vem do service
       localStorage.setItem("token", token);
       setToken(token);
       navigate("/"); // Redireciona para a página inicial após login
@@ -35,7 +41,6 @@ const Login: React.FC = () => {
   };
 
   return (
-    // 2. Use className em vez de style
     <div className="login-container">
       <h1>Login</h1>
       <form onSubmit={handleSubmit} className="login-form">
