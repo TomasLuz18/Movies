@@ -20,10 +20,23 @@ const mockGenres = [
   { id: 18, name: "Drama" },
 ];
 
+// Função para gerar uma lista de anos
+const generateYearOptions = (startYear: number, endYear: number): number[] => {
+  const years = [];
+  for (let year = endYear; year >= startYear; year--) {
+    years.push(year);
+  }
+  return years;
+};
+
 const FilterBar: React.FC<FilterBarProps> = ({ onFilterChange }) => {
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
   const [selectedCertification, setSelectedCertification] = useState<string | null>(null);
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
+
+  // Gerar anos de 1900 até o ano atual
+  const currentYear = new Date().getFullYear();
+  const yearOptions = generateYearOptions(1900, currentYear);
 
   useEffect(() => {
     onFilterChange({
@@ -48,17 +61,19 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFilterChange }) => {
         ))}
       </select>
 
-
-      <input
-        type="number"
-        className="filter-input"
-        placeholder="Ano"
+      {/* Substituição do input de número por um select de anos */}
+      <select
+        className="filter-select"
         value={selectedYear ?? ""}
-        onChange={(e) => {
-          const yearValue = e.target.value ? parseInt(e.target.value, 10) : null;
-          setSelectedYear(yearValue);
-        }}
-      />
+        onChange={(e) => setSelectedYear(e.target.value ? Number(e.target.value) : null)}
+      >
+        <option value="">-- Ano --</option>
+        {yearOptions.map((year) => (
+          <option key={year} value={year}>
+            {year}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };
