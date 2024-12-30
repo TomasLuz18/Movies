@@ -82,7 +82,10 @@ function Favorites() {
   return (
     <div>
       <h2>Your Favorite Movies</h2>
-      <div className="mediaCard">
+      <div className="mediaCard" style={{ marginTop: '100px' }}>
+  {/* Conteúdo da mediaCard */}
+
+        
         {favorites.map((item) => (
           <div
             className="media"

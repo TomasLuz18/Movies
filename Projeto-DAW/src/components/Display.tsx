@@ -7,6 +7,9 @@ import { bearerToken } from "../modules/ApiLinks"; // <-- Token da API TMDB
 import { getDiscoverMoviesUrl, getDiscoverTvUrl } from "../modules/ApiLinks";
 import "../styles/DisplayStyle.css";
 
+// Ícones de coração (react-icons)
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+
 /** 
  * Representa um item de filme ou série (Media).
  * Ajuste conforme suas necessidades 
@@ -124,7 +127,15 @@ const Display: React.FC<DataProps> = ({
     };
 
     fetchData();
-  }, [customMedia, currentPage, apiEndPoint, numberOfMedia, filters, tvShowOn, moviesOn]);
+  }, [
+    customMedia,
+    currentPage,
+    apiEndPoint,
+    numberOfMedia,
+    filters,
+    tvShowOn,
+    moviesOn,
+  ]);
 
   /**
    * Busca IDs de favoritos do backend local, se o usuário estiver logado (token).
@@ -165,8 +176,9 @@ const Display: React.FC<DataProps> = ({
    * Lidar com Favoritos (adicionar ou remover)
    */
   const handleFavoriteClick = async (movieId: string) => {
+    // Se não estiver logado, apenas avisa no console (ou faça outra ação):
     if (!token) {
-      alert("You need to log in to add favorites!");
+      console.log("You need to log in to add favorites!");
       return;
     }
 
@@ -180,7 +192,7 @@ const Display: React.FC<DataProps> = ({
           },
         });
         setFavoriteIds((prev) => prev.filter((id) => id !== movieId));
-        alert("Favorite removed!");
+        console.log("Favorite removed!");
       } else {
         await axios.post(
           "http://localhost:8080/favorites",
@@ -193,11 +205,10 @@ const Display: React.FC<DataProps> = ({
           }
         );
         setFavoriteIds((prev) => [...prev, movieId]);
-        alert("Added to favorites!");
+        console.log("Added to favorites!");
       }
     } catch (error) {
       console.error("Error updating favorites:", error);
-      alert("An error occurred while updating favorites.");
     }
   };
 
@@ -205,7 +216,11 @@ const Display: React.FC<DataProps> = ({
    * Formatação de data (dia, mês e ano)
    */
   const getFormattedDate = (dateString: string | number | Date) => {
-    const options = { year: "numeric", month: "short", day: "numeric" } as Intl.DateTimeFormatOptions;
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    } as Intl.DateTimeFormatOptions;
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", options);
   };
@@ -231,6 +246,7 @@ const Display: React.FC<DataProps> = ({
                 <div className="media" key={item.id}>
                   <div
                     className="mediaImage"
+                    style={{ position: "relative" }}
                     onClick={() => navigate(`/movie/${item.id}`)}
                   >
                     <img
@@ -242,38 +258,53 @@ const Display: React.FC<DataProps> = ({
                       alt={item.title || item.name}
                     />
                     <span>{Math.round(item.vote_average * 10) / 10}</span>
+
+                    {/* Ícone de coração no canto superior direito */}
+                    <button
+                      style={{
+                        position: "absolute",
+                        top: "8px",
+                        right: "8px",
+                        border: "none",
+                        background: "transparent",
+                        cursor: "pointer",
+                        fontSize: "1.5rem",
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFavoriteClick(item.id.toString());
+                      }}
+                    >
+                      {isFavorited ? (
+                        <AiFillHeart color="#FF5555" />
+                      ) : (
+                        <AiOutlineHeart color="#DDDDDD" />
+                      )}
+                    </button>
                   </div>
 
                   <div className="mediaInfo">
                     {moviesOn && (
                       <>
                         <h4>{item.title}</h4>
-                        <p>{item.release_date ? getFormattedDate(item.release_date) : "N/A"}</p>
+                        <p>
+                          {item.release_date
+                            ? getFormattedDate(item.release_date)
+                            : "N/A"}
+                        </p>
                       </>
                     )}
                     {tvShowOn && (
                       <>
                         <h4>{item.name}</h4>
-                        <p>{item.first_air_date ? getFormattedDate(item.first_air_date) : "N/A"}</p>
+                        <p>
+                          {item.first_air_date
+                            ? getFormattedDate(item.first_air_date)
+                            : "N/A"}
+                        </p>
                       </>
                     )}
                   </div>
-
-                  <button
-                    style={{
-                      border: "none",
-                      background: "transparent",
-                      color: isFavorited ? "red" : "grey",
-                      cursor: "pointer",
-                      fontSize: "1.2rem",
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFavoriteClick(item.id.toString());
-                    }}
-                  >
-                    ♥
-                  </button>
                 </div>
               );
             })}

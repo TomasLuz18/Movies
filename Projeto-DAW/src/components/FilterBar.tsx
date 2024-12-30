@@ -20,9 +20,6 @@ const mockGenres = [
   { id: 18, name: "Drama" },
 ];
 
-// Exemplo de classificações
-const mockCertifications = ["G", "PG", "PG-13", "R", "NC-17"];
-
 const FilterBar: React.FC<FilterBarProps> = ({ onFilterChange }) => {
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
   const [selectedCertification, setSelectedCertification] = useState<string | null>(null);
@@ -51,18 +48,6 @@ const FilterBar: React.FC<FilterBarProps> = ({ onFilterChange }) => {
         ))}
       </select>
 
-      <select
-        className="filter-select"
-        value={selectedCertification ?? ""}
-        onChange={(e) => setSelectedCertification(e.target.value || null)}
-      >
-        <option value="">-- Classificação --</option>
-        {mockCertifications.map((cert) => (
-          <option key={cert} value={cert}>
-            {cert}
-          </option>
-        ))}
-      </select>
 
       <input
         type="number"
