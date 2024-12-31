@@ -1,52 +1,62 @@
 // context/AuthContext.tsx
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // Importa a função para decodificar o token JWT.
 import React, { createContext, useState, useEffect } from "react";
 
+// Interface para definir o formato do contexto de autenticação.
 interface AuthContextType {
-  token: string | null;
-  setToken: (token: string | null) => void;
-  user: { username: string; email: string } | null;
-  logout: () => void;
+  token: string | null; // Token JWT armazenado.
+  setToken: (token: string | null) => void; // Função para atualizar o token.
+  user: { username: string; email: string } | null; // Informações do usuário autenticado.
+  logout: () => void; // Função para realizar o logout.
 }
 
+// Cria o contexto de autenticação com valores padrão.
 export const AuthContext = createContext<AuthContextType>({
   token: null,
-  setToken: () => { },
+  setToken: () => { }, // Função vazia padrão.
   user: null,
-  logout: () => { },
+  logout: () => { }, // Função vazia padrão.
 });
+
+// Componente AuthProvider para gerenciar o estado de autenticação.
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Estado para armazenar o token JWT, inicializado com o valor armazenado no localStorage.
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
+
+  // Estado para armazenar as informações do usuário decodificadas do token.
   const [user, setUser] = useState<{ username: string; email: string } | null>(null);
 
+  // Efeito para decodificar o token JWT e extrair as informações do usuário.
   useEffect(() => {
     if (token) {
       try {
-        const decoded: any = jwtDecode(token); // Decodifica o token
+        const decoded: any = jwtDecode(token); // Decodifica o token.
         setUser({
-          username: decoded.username, // Agora inclui o username
-          email: decoded.email,
+          username: decoded.username, // Extrai o nome de usuário do token.
+          email: decoded.email, // Extrai o email do token.
         });
       } catch (err) {
-        console.error("Token inválido.");
-        setUser(null);
-        setToken(null);
-        localStorage.removeItem("token");
+        console.error("Token inválido."); // Exibe um erro se o token não puder ser decodificado.
+        setUser(null); // Reseta as informações do usuário.
+        setToken(null); // Reseta o token.
+        localStorage.removeItem("token"); // Remove o token inválido do localStorage.
       }
     } else {
-      setUser(null);
+      setUser(null); // Reseta o usuário caso não haja token.
     }
-  }, [token]);
+  }, [token]); // Executa sempre que o token mudar.
 
+  // Função para realizar o logout do usuário.
   const logout = () => {
-    setToken(null);
-    setUser(null);
-    localStorage.removeItem("token");
+    setToken(null); // Reseta o token no estado.
+    setUser(null); // Reseta as informações do usuário.
+    localStorage.removeItem("token"); // Remove o token do localStorage.
   };
 
+  // Retorna o provedor do contexto de autenticação com os valores necessários.
   return (
     <AuthContext.Provider value={{ token, setToken, user, logout }}>
-      {children}
+      {children} {/* Renderiza os filhos do AuthProvider */}
     </AuthContext.Provider>
   );
 };

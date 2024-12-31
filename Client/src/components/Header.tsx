@@ -5,38 +5,51 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/HeaderStyle.css';
 
+// Lista de itens para as tabs de navegação
 const tabItems = [
-  { name: "Home", link: "/" },
-  { name: "Now playing", link: "/now_playing" },
-  { name: "Popular", link: "/popular" },
+  { name: "Home", link: "/" }, // Página inicial
+  { name: "Now playing", link: "/now_playing" }, // Filmes em exibição
+  { name: "Popular", link: "/popular" }, // Filmes populares
 ];
 
+// Componente funcional Header
 const Header: React.FC = () => {
-  const { token, logout } = useContext(AuthContext);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const navigate = useNavigate();
+  const { token, logout } = useContext(AuthContext); // Obtém o token e a função de logout do AuthContext
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // Estado para controlar o menu dropdown
+  const navigate = useNavigate(); // Hook para redirecionamento de páginas
 
+  // Função para abrir o menu ao clicar no ícone do usuário
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  // Função para fechar o menu dropdown
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
+  // Função para realizar o logout
   const handleLogout = () => {
-    logout();
-    handleMenuClose();
-    navigate('/');
+    logout(); // Chama a função de logout do contexto
+    handleMenuClose(); // Fecha o menu
+    navigate('/'); // Redireciona para a página inicial
   };
 
   return (
     <div className="navBarWrapper">
+      {/* Barra de navegação principal */}
       <AppBar sx={{ padding: '10px', backgroundColor: '#000000' }}>
         <Toolbar>
-          <Typography className="logo" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+          {/* Logo que redireciona para a página inicial */}
+          <Typography
+            className="logo"
+            onClick={() => navigate('/')}
+            style={{ cursor: 'pointer' }}
+          >
             Movies
           </Typography>
+
+          {/* Links de navegação */}
           <div className="navLinks">
             {tabItems.map((tab, index) => (
               <NavLink to={tab.link} key={index}>
@@ -44,8 +57,11 @@ const Header: React.FC = () => {
               </NavLink>
             ))}
           </div>
+
+          {/* Menu para usuários autenticados */}
           {token ? (
             <div>
+              {/* Ícone para abrir o menu do usuário */}
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -55,6 +71,8 @@ const Header: React.FC = () => {
               >
                 <AccountCircle />
               </IconButton>
+
+              {/* Menu dropdown com opções de favoritos, conta e logout */}
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -70,49 +88,52 @@ const Header: React.FC = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleMenuClose}
               >
-                <MenuItem onClick={() => navigate('/favorites')}>Filmes Favoritos</MenuItem>
-                <MenuItem onClick={() => {
-                  navigate('/account');
-                  handleMenuClose();
-                }}>
+                <MenuItem onClick={() => navigate('/favorites')}>
+                  Filmes Favoritos
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    navigate('/account');
+                    handleMenuClose();
+                  }}
+                >
                   Definições de Conta
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
           ) : (
+            // Botões para login e criação de conta para usuários não autenticados
             <div className="authButtons">
-<NavLink to="/login">
-  <Button
-    className="authButton"
-    variant="contained"
-    sx={{
-      backgroundColor: "black",
-      color: "white",
-      border: "2px solid white", // Borda branca
-      '&:hover': { backgroundColor: "#333", border: "2px solid white" }, // Hover com borda branca
-    }}
-  >
-    Login
-  </Button>
-</NavLink>
-<NavLink to="/create_account">
-  <Button
-    className="authButton"
-    variant="contained"
-    sx={{
-      backgroundColor: "black",
-      color: "white",
-      border: "2px solid white", // Borda branca
-      marginLeft: '10px',
-      '&:hover': { backgroundColor: "#333", border: "2px solid white" }, // Hover com borda branca
-    }}
-  >
-    Sign Up
-  </Button>
-</NavLink>
-
-
+              <NavLink to="/login">
+                <Button
+                  className="authButton"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+                    border: "2px solid white", // Borda branca
+                    '&:hover': { backgroundColor: "#333", border: "2px solid white" }, // Hover com borda branca
+                  }}
+                >
+                  Login
+                </Button>
+              </NavLink>
+              <NavLink to="/create_account">
+                <Button
+                  className="authButton"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+                    border: "2px solid white", // Borda branca
+                    marginLeft: '10px',
+                    '&:hover': { backgroundColor: "#333", border: "2px solid white" }, // Hover com borda branca
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </NavLink>
             </div>
           )}
         </Toolbar>

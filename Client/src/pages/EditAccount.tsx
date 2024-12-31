@@ -6,11 +6,15 @@ import {
   updatePassword,
 } from "../modules/UserService";
 
-// 1. Importe o CSS
+// Importa o arquivo CSS para estilização.
 import "../styles/EditAccountStyle.css";
 
+// Componente funcional para a página de edição de conta.
 const EditAccount: React.FC = () => {
+  // Obtém informações do usuário autenticado a partir do contexto.
   const { user } = useContext(AuthContext);
+
+  // Estados locais para lidar com as informações do usuário e modos de edição.
   const [name, setName] = useState(user?.username || "Nome do Usuário");
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
@@ -18,18 +22,22 @@ const EditAccount: React.FC = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Atualiza o estado do nome do usuário quando o input é alterado.
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
+  // Alterna o modo de edição para o nome do usuário.
   const toggleEditName = () => {
     setIsEditingName(!isEditingName);
   };
 
+  // Alterna o modo de edição para a senha.
   const toggleEditPassword = () => {
     setIsEditingPassword(!isEditingPassword);
   };
 
+  // Atualiza os estados das senhas conforme o usuário preenche os campos.
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "currentPassword") setCurrentPassword(value);
@@ -37,9 +45,7 @@ const EditAccount: React.FC = () => {
     if (name === "confirmPassword") setConfirmPassword(value);
   };
 
-  // ======================================
-  // Chamada ao service: deleteAccount()
-  // ======================================
+  // Função para apagar a conta do usuário.
   const handleDeleteAccount = async () => {
     const confirma = window.confirm(
       "Tem certeza que deseja apagar a conta? Esta ação é irreversível."
@@ -47,33 +53,31 @@ const EditAccount: React.FC = () => {
     if (!confirma) return;
 
     try {
-      await deleteAccount(); // <-- Chama a função do service
+      // Chama o serviço para apagar a conta.
+      await deleteAccount();
       alert("Conta apagada com sucesso!");
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+      localStorage.removeItem("token"); // Remove o token armazenado.
+      window.location.href = "/login"; // Redireciona para a página de login.
     } catch (err) {
       console.error(err);
       alert("Erro ao apagar a conta.");
     }
   };
 
-  // ======================================
-  // Chamada ao service: updateName()
-  // ======================================
+  // Função para salvar o novo nome do usuário.
   const saveName = async () => {
     try {
-      await updateName(name); // <-- Chama a função do service
+      // Chama o serviço para atualizar o nome.
+      await updateName(name);
       alert("Nome atualizado com sucesso!");
-      toggleEditName();
+      toggleEditName(); // Sai do modo de edição.
     } catch (err) {
       console.error(err);
       alert("Erro ao atualizar o nome.");
     }
   };
 
-  // ======================================
-  // Chamada ao service: updatePassword()
-  // ======================================
+  // Função para salvar a nova senha.
   const savePassword = async () => {
     if (newPassword !== confirmPassword) {
       alert("As passwords não coincidem.");
@@ -81,21 +85,23 @@ const EditAccount: React.FC = () => {
     }
 
     try {
-      await updatePassword(currentPassword, newPassword); // <-- Chama a função do service
+      // Chama o serviço para atualizar a senha.
+      await updatePassword(currentPassword, newPassword);
       alert("Password alterada com sucesso!");
-      toggleEditPassword();
+      toggleEditPassword(); // Sai do modo de edição.
     } catch (err) {
       console.error(err);
       alert("Erro ao alterar a password.");
     }
   };
 
+  // Renderiza o formulário de edição de conta com diferentes seções.
   return (
-<div className="page-wrapper" style={{ marginTop: "80px" }}>
-<h1 className="page-title">Editar Conta</h1>
+    <div className="page-wrapper" style={{ marginTop: "80px" }}>
+      <h1 className="page-title">Editar Conta</h1>
 
       <div className="card">
-        {/* Seção de Nome */}
+        {/* Seção para editar o nome do usuário */}
         <div className="section">
           <label className="label">Nome:</label>
           <div className="inline">
@@ -125,18 +131,18 @@ const EditAccount: React.FC = () => {
           </div>
         </div>
 
-        {/* Seção de Email */}
+        {/* Exibe o e-mail do usuário, apenas leitura */}
         <div className="section">
           <label className="label">Email:</label>
           <input
             type="email"
             value={user?.email || "email@exemplo.com"}
             readOnly
-            className="input readonly-input" 
+            className="input readonly-input"
           />
         </div>
 
-        {/* Seção de Alteração de Password */}
+        {/* Seção para alterar a senha do usuário */}
         <div className="section">
           <h2 className="sub-title">Alterar Password</h2>
           {!isEditingPassword ? (
@@ -184,7 +190,7 @@ const EditAccount: React.FC = () => {
           )}
         </div>
 
-        {/* Seção de Apagar Conta */}
+        {/* Botão para apagar a conta */}
         <div className="section">
           <button className="delete-button" onClick={handleDeleteAccount}>
             Apagar Conta
