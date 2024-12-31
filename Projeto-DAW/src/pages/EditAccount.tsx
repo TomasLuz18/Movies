@@ -89,7 +89,8 @@ const EditAccount: React.FC = () => {
   };
 
   return (
-    <div style={styles.pageWrapper}>
+    <div style={{ ...styles.pageWrapper, marginTop: '80px' }}>
+
       <h1 style={styles.pageTitle}>Editar Conta</h1>
 
       <div style={styles.card}>
@@ -281,7 +282,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   editButton: {
     padding: "10px 20px",
-    backgroundColor: "#007bff",
+    backgroundColor: "#2b2b2b",
     color: "#fff",
     border: "none",
     borderRadius: "5px",
@@ -291,7 +292,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   saveButton: {
     padding: "10px 20px",
-    backgroundColor: "#28a745",
+    backgroundColor: "#2b2b2b",
     color: "#fff",
     border: "none",
     borderRadius: "5px",
@@ -301,7 +302,7 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   cancelButton: {
     padding: "10px 20px",
-    backgroundColor: "#6c757d",
+    backgroundColor: "#2b2b2b",
     color: "#fff",
     border: "none",
     borderRadius: "5px",
@@ -314,9 +315,9 @@ const styles: { [key: string]: React.CSSProperties } = {
   },
   deleteButton: {
     padding: "10px 20px",
-    backgroundColor: "#dc3545",
+    backgroundColor: "#2b2b2b",
     color: "#fff",
-    border: "none",
+    border: "red",
     borderRadius: "5px",
     cursor: "pointer",
     fontSize: "0.95rem",

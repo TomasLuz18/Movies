@@ -71,9 +71,16 @@ const CreateAccount: React.FC = () => {
           onChange={handleChange}
           style={styles.input}
         />
-        <button type="submit" style={styles.button}>
+        <button
+          type="submit"
+          style={{
+            ...styles.button,
+            backgroundColor: "black", // Fundo preto
+          }}
+        >
           Create Account
         </button>
+
       </form>
       {message && <p style={styles.success}>{message}</p>}
       {error && <p style={styles.error}>{error}</p>}

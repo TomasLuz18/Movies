@@ -70,6 +70,7 @@
 
 .searchBar > input,
 .searchBar > button {
+  color:#fff;
   margin: auto;
   outline: none;
   border: none;

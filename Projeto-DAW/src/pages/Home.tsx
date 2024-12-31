@@ -34,7 +34,7 @@ const Home: React.FC = () => {
     <div>
       <CoverPage
         title="Welcome to Movies"
-        description="The best Website to stay updated on movies and TV shows!"
+        description="The best Website to stay updated on movies!"
         catchyPhrase="Check out new releases, popular titles, and much more!"
         headerImage={coverImage}
         showSearch={true}
