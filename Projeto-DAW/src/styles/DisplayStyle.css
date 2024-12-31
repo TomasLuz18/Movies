@@ -109,11 +109,11 @@
    height: 35px;
    width: 35px;
    border-radius: 50%;
-   background-color: #f8c700;
+   color:#fff;
+   background-color: #1f1f1f;
    display: flex;
    justify-content: center;
    align-items: center;
-   color: #333;
    padding: 2px;
    font-family: "Noto Serif", serif;
    font-size: 15px;

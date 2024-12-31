@@ -82,16 +82,37 @@ const Header: React.FC = () => {
             </div>
           ) : (
             <div className="authButtons">
-              <NavLink to="/login">
-                <Button className="loginButton" variant="contained" color="info">
-                  Login
-                </Button>
-              </NavLink>
-              <NavLink to="/create_account">
-                <Button className="signupButton" variant="outlined" color="info" sx={{ marginLeft: '10px' }}>
-                  Sign Up
-                </Button>
-              </NavLink>
+<NavLink to="/login">
+  <Button
+    className="authButton"
+    variant="contained"
+    sx={{
+      backgroundColor: "black",
+      color: "white",
+      border: "2px solid white", // Borda branca
+      '&:hover': { backgroundColor: "#333", border: "2px solid white" }, // Hover com borda branca
+    }}
+  >
+    Login
+  </Button>
+</NavLink>
+<NavLink to="/create_account">
+  <Button
+    className="authButton"
+    variant="contained"
+    sx={{
+      backgroundColor: "black",
+      color: "white",
+      border: "2px solid white", // Borda branca
+      marginLeft: '10px',
+      '&:hover': { backgroundColor: "#333", border: "2px solid white" }, // Hover com borda branca
+    }}
+  >
+    Sign Up
+  </Button>
+</NavLink>
+
+
             </div>
           )}
         </Toolbar>
