@@ -9,7 +9,7 @@ import {
   popularMovies,
   topRatedMovies,
   upcomingMovies,
-  nowPlayingMovies,
+  
 } from "../modules/ApiLinks";
 
 // Create an interface to avoid 'any'

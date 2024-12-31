@@ -68,7 +68,19 @@
   position: relative;
 }
 
-.searchBar > input,
+.searchBar > input{
+  color:#000;
+  margin: auto;
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  position: absolute;
+  top: 100%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  height: 45px;
+}
+
 .searchBar > button {
   color:#fff;
   margin: auto;
