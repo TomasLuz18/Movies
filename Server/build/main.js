@@ -39,7 +39,6 @@ const path_1 = __importDefault(require("path"));
 const express_1 = __importDefault(require("express"));
 const serverInfo_1 = require("./serverInfo");
 const SMTP = __importStar(require("./SMTP"));
-const Contacts = __importStar(require("./contacts"));
 const users_1 = require("./users");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -68,21 +67,6 @@ const asyncHandler = (fn) => {
 app.post("/messages", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const smtpWorker = new SMTP.Worker(serverInfo_1.serverInfo);
     yield smtpWorker.sendMessage(req.body);
-    res.send("ok");
-})));
-app.get("/contacts", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const contactsWorker = new Contacts.Worker();
-    const contacts = yield contactsWorker.listContacts();
-    res.json(contacts);
-})));
-app.post("/contacts", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const contactsWorker = new Contacts.Worker();
-    const contact = yield contactsWorker.addContact(req.body);
-    res.json(contact);
-})));
-app.delete("/contacts/:id", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const contactsWorker = new Contacts.Worker();
-    yield contactsWorker.deleteContact(req.params.id);
     res.send("ok");
 })));
 // ------------------- Rotas de Autenticação -------------------
