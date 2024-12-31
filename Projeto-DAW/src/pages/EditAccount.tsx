@@ -91,8 +91,8 @@ const EditAccount: React.FC = () => {
   };
 
   return (
-    <div className="page-wrapper">
-      <h1 className="page-title">Editar Conta</h1>
+<div className="page-wrapper" style={{ marginTop: "80px" }}>
+<h1 className="page-title">Editar Conta</h1>
 
       <div className="card">
         {/* Seção de Nome */}

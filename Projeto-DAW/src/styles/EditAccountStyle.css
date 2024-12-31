@@ -1,6 +1,9 @@
 /* EditAccount.css */
+.body{
+  font-family: "Tahoma, sans-serif" }
 
 .page-wrapper {
+  font-family: "Tahoma, sans-serif";
     min-height: 100vh;
     background-color: #f5f6f8;
     display: flex;
@@ -11,12 +14,14 @@
   }
   
   .page-title {
+    font-family: "Tahoma, sans-serif";
     font-size: 2rem;
     margin-bottom: 30px;
     color: #333;
   }
   
   .card {
+    font-family: "Tahoma, sans-serif";
     background-color: #fff;
     width: 100%;
     max-width: 600px;
@@ -26,16 +31,19 @@
   }
   
   .section {
+    font-family: "Tahoma, sans-serif";
     margin-bottom: 20px;
   }
   
   .sub-title {
+    font-family: "Tahoma, sans-serif";
     font-size: 1.2rem;
     margin: 10px 0;
     color: #333;
   }
   
   .inline {
+    font-family: "Tahoma, sans-serif";
     display: flex;
     align-items: center;
     gap: 10px;
@@ -43,6 +51,7 @@
   }
   
   .label {
+    font-family: "Tahoma, sans-serif";
     display: block;
     margin-bottom: 6px;
     font-weight: 600;
@@ -51,11 +60,13 @@
   }
   
   .text {
+    font-family: "Tahoma, sans-serif";
     font-size: 1rem;
     color: #333;
   }
   
   .input {
+    font-family: "Tahoma, sans-serif";
     width: 100%;
     max-width: 100%;
     padding: 10px;
@@ -66,8 +77,9 @@
   }
   
   .edit-button {
+    font-family: "Tahoma, sans-serif";
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #000;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -77,8 +89,9 @@
   }
   
   .save-button {
+    font-family: "Tahoma, sans-serif";
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: #6c757d;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -88,6 +101,7 @@
   }
   
   .cancel-button {
+    font-family: "Tahoma, sans-serif";
     padding: 10px 20px;
     background-color: #6c757d;
     color: #fff;
@@ -99,10 +113,12 @@
   }
   
   .password-section {
+    font-family: "Tahoma, sans-serif";
     margin-top: 10px;
   }
   
   .delete-button {
+    font-family: "Tahoma, sans-serif";
     padding: 10px 20px;
     background-color: #dc3545;
     color: #fff;

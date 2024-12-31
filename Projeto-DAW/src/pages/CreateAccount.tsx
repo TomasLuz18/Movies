@@ -38,7 +38,9 @@ const CreateAccount: React.FC = () => {
 
   return (
     <div className="create-account-container">
-      <h1>Create Account</h1>
+      <h1 style={{ fontFamily: "Tahoma, sans-serif" }}>
+        Create Account
+      </h1>
       <form onSubmit={handleSubmit} className="create-account-form">
         <input
           type="text"
@@ -75,8 +77,11 @@ const CreateAccount: React.FC = () => {
           onChange={handleChange}
           className="create-account-input"
         />
-        <button type="submit" className="create-account-button">
-          Create Account
+        <button
+          type="submit"
+          className="create-account-button"
+          style={{ backgroundColor: "black", fontFamily: "Tahoma, sans-serif" }}
+        >          Create Account
         </button>
       </form>
       {message && <p className="create-account-success">{message}</p>}

@@ -42,7 +42,9 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-container">
-      <h1>Login</h1>
+            <h1 style={{ fontFamily: "Tahoma, sans-serif" }}>
+
+      Login</h1>
       <form onSubmit={handleSubmit} className="login-form">
         <input
           type="email"
