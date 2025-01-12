@@ -6,7 +6,7 @@ import React, { createContext, useState, useEffect } from "react";
 interface AuthContextType {
   token: string | null; // Token JWT armazenado.
   setToken: (token: string | null) => void; // Função para atualizar o token.
-  user: { username: string; email: string } | null; // Informações do usuário autenticado.
+  user: { username: string; email: string } | null; // Informações do utilizador autenticado.
   logout: () => void; // Função para realizar o logout.
 }
 
@@ -23,33 +23,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Estado para armazenar o token JWT, inicializado com o valor armazenado no localStorage.
   const [token, setToken] = useState<string | null>(localStorage.getItem("token"));
 
-  // Estado para armazenar as informações do usuário decodificadas do token.
+  // Estado para armazenar as informações do utilizador decodificadas do token.
   const [user, setUser] = useState<{ username: string; email: string } | null>(null);
 
-  // Efeito para decodificar o token JWT e extrair as informações do usuário.
+  // Efeito para decodificar o token JWT e extrair as informações do utilizador.
   useEffect(() => {
     if (token) {
       try {
         const decoded: any = jwtDecode(token); // Decodifica o token.
         setUser({
-          username: decoded.username, // Extrai o nome de usuário do token.
+          username: decoded.username, // Extrai o nome de utilizador do token.
           email: decoded.email, // Extrai o email do token.
         });
       } catch (err) {
         console.error("Token inválido."); // Exibe um erro se o token não puder ser decodificado.
-        setUser(null); // Reseta as informações do usuário.
+        setUser(null); // Reseta as informações do utilizador.
         setToken(null); // Reseta o token.
         localStorage.removeItem("token"); // Remove o token inválido do localStorage.
       }
     } else {
-      setUser(null); // Reseta o usuário caso não haja token.
+      setUser(null); // Reseta o utilizador caso não haja token.
     }
   }, [token]); // Executa sempre que o token mudar.
 
-  // Função para realizar o logout do usuário.
+  // Função para realizar o logout do utilizador.
   const logout = () => {
     setToken(null); // Reseta o token no estado.
-    setUser(null); // Reseta as informações do usuário.
+    setUser(null); // Reseta as informações do utilizador.
     localStorage.removeItem("token"); // Remove o token do localStorage.
   };
 

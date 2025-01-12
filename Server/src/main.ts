@@ -46,7 +46,7 @@ app.post("/messages", asyncHandler(async (req: Request, res: Response) => {
 const userWorker = new UserWorker();
 
 /**
- * Registro de usuário
+ * Registro de utilizador
  */
 app.post("/register", asyncHandler(async (req: Request, res: Response) => {
   const { username, email, password } = req.body;
@@ -56,10 +56,10 @@ app.post("/register", asyncHandler(async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Dados incompletos." });
   }
 
-  // Verifica se o usuário já existe
+  // Verifica se o utilizador já existe
   const existingUser = await userWorker.findUserByEmail(email);
   if (existingUser) {
-    return res.status(400).json({ message: "Usuário já existe." });
+    return res.status(400).json({ message: "utilizador já existe." });
   }
 
   // Hash da senha
@@ -68,7 +68,7 @@ app.post("/register", asyncHandler(async (req: Request, res: Response) => {
   // Geração de token de confirmação (se você for usar ativação por email)
   const confirmationToken = uuidv4();
 
-  // Criação do usuário
+  // Criação do utilizador
   const newUser: IUser = {
     username,
     email,
@@ -91,7 +91,7 @@ app.post("/register", asyncHandler(async (req: Request, res: Response) => {
   };
   await smtpWorker.sendMessage(mailOptions);
 
-  res.status(201).json({ message: "Usuário criado. Verifique seu e-mail para confirmação." });
+  res.status(201).json({ message: "utilizador criado. Verifique seu e-mail para confirmação." });
 }));
 
 /**
@@ -113,7 +113,7 @@ app.get("/activate", asyncHandler(async (req: Request, res: Response) => {
 }));
 
 /**
- * Login de usuário
+ * Login de utilizador
  */
 app.post("/login", asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -124,7 +124,7 @@ app.post("/login", asyncHandler(async (req: Request, res: Response) => {
 
   const user = await userWorker.findUserByEmail(email);
   if (!user) {
-    return res.status(400).json({ message: "Usuário não encontrado." });
+    return res.status(400).json({ message: "utilizador não encontrado." });
   }
 
   if (!user.isActive) {
@@ -186,14 +186,14 @@ const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-// ------------------- Rotas de Exemplo de CRUD de Usuário -------------------
+// ------------------- Rotas de Exemplo de CRUD de utilizador -------------------
 app.delete(
   "/users/delete",
   authenticateJWT,
   asyncHandler(async (req: Request, res: Response) => {
     const user = await userWorker.findUserById(req.user!.userId);
     if (!user) {
-      return res.status(404).json({ message: "Usuário não encontrado." });
+      return res.status(404).json({ message: "utilizador não encontrado." });
     }
     await userWorker.deleteUser(req.user!.userId);
     res.json({ message: "Conta apagada com sucesso." });
@@ -210,7 +210,7 @@ app.patch(
     }
     const user = await userWorker.findUserById(req.user!.userId);
     if (!user) {
-      return res.status(404).json({ message: "Usuário não encontrado." });
+      return res.status(404).json({ message: "utilizador não encontrado." });
     }
     await userWorker.updateUser(req.user!.userId, { username });
     res.json({ message: "Nome atualizado com sucesso." });
@@ -227,7 +227,7 @@ app.patch(
     }
     const user = await userWorker.findUserById(req.user!.userId);
     if (!user) {
-      return res.status(404).json({ message: "Usuário não encontrado." });
+      return res.status(404).json({ message: "utilizador não encontrado." });
     }
 
     const isMatch = await bcrypt.compare(currentPassword, user.password);
@@ -244,7 +244,7 @@ app.patch(
 // ------------------- Rotas de FAVORITOS -------------------
 
 /**
- * Adiciona um favorito para o usuário logado
+ * Adiciona um favorito para o utilizador logado
  */
 app.post(
   "/favorites",
@@ -257,10 +257,10 @@ app.post(
       return res.status(400).json({ message: "movieId é obrigatório." });
     }
 
-    // Busca o usuário no banco
+    // Busca o utilizador no banco
     const user = await userWorker.findUserById(userId);
     if (!user) {
-      return res.status(404).json({ message: "Usuário não encontrado." });
+      return res.status(404).json({ message: "utilizador não encontrado." });
     }
 
     // Se favorites não existir, inicializa como []
@@ -282,7 +282,7 @@ app.post(
 );
 
 /**
- * Retorna todos os IDs de filmes favoritados pelo usuário logado
+ * Retorna todos os IDs de filmes favoritados pelo utilizador logado
  */
 app.get(
   "/favorites",
@@ -292,7 +292,7 @@ app.get(
 
     const user = await userWorker.findUserById(userId);
     if (!user) {
-      return res.status(404).json({ message: "Usuário não encontrado." });
+      return res.status(404).json({ message: "utilizador não encontrado." });
     }
 
     const favorites = user.favorites || [];
@@ -312,7 +312,7 @@ app.delete(
 
     const user = await userWorker.findUserById(userId);
     if (!user) {
-      return res.status(404).json({ message: "Usuário não encontrado." });
+      return res.status(404).json({ message: "utilizador não encontrado." });
     }
 
     if (!user.favorites) {
@@ -336,7 +336,7 @@ app.get(
   authenticateJWT,
   asyncHandler(async (req: Request, res: Response) => {
     if (!req.user) {
-      return res.status(401).json({ message: "Usuário não autenticado." });
+      return res.status(401).json({ message: "utilizador não autenticado." });
     }
     res.json({ message: "Você acessou uma rota protegida!", user: req.user });
   })

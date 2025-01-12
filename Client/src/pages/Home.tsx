@@ -20,7 +20,7 @@ interface Filters {
 
 // Componente funcional para a página inicial.
 const Home: React.FC = () => {
-  // Estado para armazenar os filtros selecionados pelo usuário.
+  // Estado para armazenar os filtros selecionados pelo utilizador.
   const [filters, setFilters] = useState<Filters>({
     genre: null,
     certification: null,
@@ -54,7 +54,7 @@ const Home: React.FC = () => {
         moviesOn={true} // Define que a seção exibe filmes.
         tvShowOn={false} // Define que a seção não exibe séries.
         numberOfMedia={10} // Número de mídias exibidas.
-        filters={filters} // Aplica os filtros selecionados pelo usuário.
+        filters={filters} // Aplica os filtros selecionados pelo utilizador.
       />
 
       {/* Seção de filmes mais bem avaliados */}

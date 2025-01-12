@@ -11,23 +11,23 @@ import "../styles/EditAccountStyle.css";
 
 // Componente funcional para a página de edição de conta.
 const EditAccount: React.FC = () => {
-  // Obtém informações do usuário autenticado a partir do contexto.
+  // Obtém informações do utilizador autenticado a partir do contexto.
   const { user } = useContext(AuthContext);
 
-  // Estados locais para lidar com as informações do usuário e modos de edição.
-  const [name, setName] = useState(user?.username || "Nome do Usuário");
+  // Estados locais para lidar com as informações do utilizador e modos de edição.
+  const [name, setName] = useState(user?.username || "Nome do utilizador");
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Atualiza o estado do nome do usuário quando o input é alterado.
+  // Atualiza o estado do nome do utilizador quando o input é alterado.
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
   };
 
-  // Alterna o modo de edição para o nome do usuário.
+  // Alterna o modo de edição para o nome do utilizador.
   const toggleEditName = () => {
     setIsEditingName(!isEditingName);
   };
@@ -37,7 +37,7 @@ const EditAccount: React.FC = () => {
     setIsEditingPassword(!isEditingPassword);
   };
 
-  // Atualiza os estados das senhas conforme o usuário preenche os campos.
+  // Atualiza os estados das senhas conforme o utilizador preenche os campos.
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "currentPassword") setCurrentPassword(value);
@@ -45,7 +45,7 @@ const EditAccount: React.FC = () => {
     if (name === "confirmPassword") setConfirmPassword(value);
   };
 
-  // Função para apagar a conta do usuário.
+  // Função para apagar a conta do utilizador.
   const handleDeleteAccount = async () => {
     const confirma = window.confirm(
       "Tem certeza que deseja apagar a conta? Esta ação é irreversível."
@@ -64,7 +64,7 @@ const EditAccount: React.FC = () => {
     }
   };
 
-  // Função para salvar o novo nome do usuário.
+  // Função para salvar o novo nome do utilizador.
   const saveName = async () => {
     try {
       // Chama o serviço para atualizar o nome.
@@ -101,7 +101,7 @@ const EditAccount: React.FC = () => {
       <h1 className="page-title">Editar Conta</h1>
 
       <div className="card">
-        {/* Seção para editar o nome do usuário */}
+        {/* Seção para editar o nome do utilizador */}
         <div className="section">
           <label className="label">Nome:</label>
           <div className="inline">
@@ -131,7 +131,7 @@ const EditAccount: React.FC = () => {
           </div>
         </div>
 
-        {/* Exibe o e-mail do usuário, apenas leitura */}
+        {/* Exibe o e-mail do utilizador, apenas leitura */}
         <div className="section">
           <label className="label">Email:</label>
           <input
@@ -142,7 +142,7 @@ const EditAccount: React.FC = () => {
           />
         </div>
 
-        {/* Seção para alterar a senha do usuário */}
+        {/* Seção para alterar a senha do utilizador */}
         <div className="section">
           <h2 className="sub-title">Alterar Password</h2>
           {!isEditingPassword ? (

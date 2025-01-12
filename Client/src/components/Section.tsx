@@ -39,7 +39,7 @@ const Section: React.FC<SectionProps> = ({
                 filters={filters} // Aplica os filtros personalizados.
             />
         </div>
-    );
+    ); 
 };
 
 export default Section;

@@ -49,7 +49,7 @@ const CreateAccount: React.FC = () => {
         Create Account
       </h1>
       <form onSubmit={handleSubmit} className="create-account-form">
-        {/* Campo para o nome de usuário */}
+        {/* Campo para o nome de utilizador */}
         <input
           type="text"
           name="username"

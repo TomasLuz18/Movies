@@ -10,7 +10,7 @@ export interface CreateAccountFormData {
 
 
 /**
- * Cria a conta de um usuário
+ * Cria a conta de um utilizador
  */
 export async function createAccountRequest(formData: CreateAccountFormData) {
   return axios.post("http://localhost:8080/register", {
@@ -21,7 +21,7 @@ export async function createAccountRequest(formData: CreateAccountFormData) {
 
 
 /**
- * Apaga a conta do usuário na API local.
+ * Apaga a conta do utilizador na API local.
  */
 export async function deleteAccount(): Promise<void> {
   return axios.delete("http://localhost:8080/users/delete", {
@@ -30,7 +30,7 @@ export async function deleteAccount(): Promise<void> {
 }
 
 /**
- * Atualiza o nome do usuário na API.
+ * Atualiza o nome do utilizador na API.
  */
 export async function updateName(name: string): Promise<void> {
   return axios.patch(
@@ -43,7 +43,7 @@ export async function updateName(name: string): Promise<void> {
 }
 
 /**
- * Atualiza a password do usuário na API.
+ * Atualiza a password do utilizador na API.
  */
 export async function updatePassword(
   currentPassword: string, 

@@ -18,7 +18,7 @@ const Header: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // Estado para controlar o menu dropdown
   const navigate = useNavigate(); // Hook para redirecionamento de páginas
 
-  // Função para abrir o menu ao clicar no ícone do usuário
+  // Função para abrir o menu ao clicar no ícone do utilizador
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -58,10 +58,10 @@ const Header: React.FC = () => {
             ))}
           </div>
 
-          {/* Menu para usuários autenticados */}
+          {/* Menu para utilizadors autenticados */}
           {token ? (
             <div>
-              {/* Ícone para abrir o menu do usuário */}
+              {/* Ícone para abrir o menu do utilizador */}
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -103,7 +103,7 @@ const Header: React.FC = () => {
               </Menu>
             </div>
           ) : (
-            // Botões para login e criação de conta para usuários não autenticados
+            // Botões para login e criação de conta para utilizadors não autenticados
             <div className="authButtons">
               <NavLink to="/login">
                 <Button

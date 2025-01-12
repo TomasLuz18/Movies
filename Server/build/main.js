@@ -72,7 +72,7 @@ app.post("/messages", asyncHandler((req, res) => __awaiter(void 0, void 0, void 
 // ------------------- Rotas de Autenticação -------------------
 const userWorker = new users_1.UserWorker();
 /**
- * Registro de usuário
+ * Registro de utilizador
  */
 app.post("/register", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, email, password } = req.body;
@@ -80,16 +80,16 @@ app.post("/register", asyncHandler((req, res) => __awaiter(void 0, void 0, void 
     if (!username || !email || !password) {
         return res.status(400).json({ message: "Dados incompletos." });
     }
-    // Verifica se o usuário já existe
+    // Verifica se o utilizador já existe
     const existingUser = yield userWorker.findUserByEmail(email);
     if (existingUser) {
-        return res.status(400).json({ message: "Usuário já existe." });
+        return res.status(400).json({ message: "utilizador já existe." });
     }
     // Hash da senha
     const hashedPassword = yield bcrypt_1.default.hash(password, 10);
     // Geração de token de confirmação (se você for usar ativação por email)
     const confirmationToken = (0, uuid_1.v4)();
-    // Criação do usuário
+    // Criação do utilizador
     const newUser = {
         username,
         email,
@@ -109,7 +109,7 @@ app.post("/register", asyncHandler((req, res) => __awaiter(void 0, void 0, void 
         text: `Olá ${username},\n\nPor favor, confirme sua conta clicando no link a seguir:\n${confirmationLink}\n\nObrigado!`,
     };
     yield smtpWorker.sendMessage(mailOptions);
-    res.status(201).json({ message: "Usuário criado. Verifique seu e-mail para confirmação." });
+    res.status(201).json({ message: "utilizador criado. Verifique seu e-mail para confirmação." });
 })));
 /**
  * Ativação de conta (caso use link enviado por email)
@@ -128,7 +128,7 @@ app.get("/activate", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0
     }
 })));
 /**
- * Login de usuário
+ * Login de utilizador
  */
 app.post("/login", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = req.body;
@@ -137,7 +137,7 @@ app.post("/login", asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, 
     }
     const user = yield userWorker.findUserByEmail(email);
     if (!user) {
-        return res.status(400).json({ message: "Usuário não encontrado." });
+        return res.status(400).json({ message: "utilizador não encontrado." });
     }
     if (!user.isActive) {
         return res.status(400).json({ message: "Conta não ativada. Verifique seu e-mail." });
@@ -184,11 +184,11 @@ const authenticateJWT = (req, res, next) => {
         res.sendStatus(401); // se não tiver o Authorization header
     }
 };
-// ------------------- Rotas de Exemplo de CRUD de Usuário -------------------
+// ------------------- Rotas de Exemplo de CRUD de utilizador -------------------
 app.delete("/users/delete", authenticateJWT, asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield userWorker.findUserById(req.user.userId);
     if (!user) {
-        return res.status(404).json({ message: "Usuário não encontrado." });
+        return res.status(404).json({ message: "utilizador não encontrado." });
     }
     yield userWorker.deleteUser(req.user.userId);
     res.json({ message: "Conta apagada com sucesso." });
@@ -200,7 +200,7 @@ app.patch("/users/update-name", authenticateJWT, asyncHandler((req, res) => __aw
     }
     const user = yield userWorker.findUserById(req.user.userId);
     if (!user) {
-        return res.status(404).json({ message: "Usuário não encontrado." });
+        return res.status(404).json({ message: "utilizador não encontrado." });
     }
     yield userWorker.updateUser(req.user.userId, { username });
     res.json({ message: "Nome atualizado com sucesso." });
@@ -212,7 +212,7 @@ app.patch("/users/update-password", authenticateJWT, asyncHandler((req, res) => 
     }
     const user = yield userWorker.findUserById(req.user.userId);
     if (!user) {
-        return res.status(404).json({ message: "Usuário não encontrado." });
+        return res.status(404).json({ message: "utilizador não encontrado." });
     }
     const isMatch = yield bcrypt_1.default.compare(currentPassword, user.password);
     if (!isMatch) {
@@ -224,7 +224,7 @@ app.patch("/users/update-password", authenticateJWT, asyncHandler((req, res) => 
 })));
 // ------------------- Rotas de FAVORITOS -------------------
 /**
- * Adiciona um favorito para o usuário logado
+ * Adiciona um favorito para o utilizador logado
  */
 app.post("/favorites", authenticateJWT, asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.user.userId;
@@ -232,10 +232,10 @@ app.post("/favorites", authenticateJWT, asyncHandler((req, res) => __awaiter(voi
     if (!movieId) {
         return res.status(400).json({ message: "movieId é obrigatório." });
     }
-    // Busca o usuário no banco
+    // Busca o utilizador no banco
     const user = yield userWorker.findUserById(userId);
     if (!user) {
-        return res.status(404).json({ message: "Usuário não encontrado." });
+        return res.status(404).json({ message: "utilizador não encontrado." });
     }
     // Se favorites não existir, inicializa como []
     if (!user.favorites) {
@@ -252,13 +252,13 @@ app.post("/favorites", authenticateJWT, asyncHandler((req, res) => __awaiter(voi
     });
 })));
 /**
- * Retorna todos os IDs de filmes favoritados pelo usuário logado
+ * Retorna todos os IDs de filmes favoritados pelo utilizador logado
  */
 app.get("/favorites", authenticateJWT, asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.user.userId;
     const user = yield userWorker.findUserById(userId);
     if (!user) {
-        return res.status(404).json({ message: "Usuário não encontrado." });
+        return res.status(404).json({ message: "utilizador não encontrado." });
     }
     const favorites = user.favorites || [];
     return res.json({ favorites });
@@ -271,7 +271,7 @@ app.delete("/favorites/:movieId", authenticateJWT, asyncHandler((req, res) => __
     const { movieId } = req.params;
     const user = yield userWorker.findUserById(userId);
     if (!user) {
-        return res.status(404).json({ message: "Usuário não encontrado." });
+        return res.status(404).json({ message: "utilizador não encontrado." });
     }
     if (!user.favorites) {
         user.favorites = [];
@@ -287,7 +287,7 @@ app.delete("/favorites/:movieId", authenticateJWT, asyncHandler((req, res) => __
 // ------------------- Exemplo de rota protegida genérica -------------------
 app.get("/protected", authenticateJWT, asyncHandler((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!req.user) {
-        return res.status(401).json({ message: "Usuário não autenticado." });
+        return res.status(401).json({ message: "utilizador não autenticado." });
     }
     res.json({ message: "Você acessou uma rota protegida!", user: req.user });
 })));

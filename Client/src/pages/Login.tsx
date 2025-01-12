@@ -23,7 +23,7 @@ const Login: React.FC = () => {
   const { setToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Atualiza o estado do formulário conforme o usuário preenche os campos.
+  // Atualiza o estado do formulário conforme o utilizador preenche os campos.
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -34,13 +34,13 @@ const Login: React.FC = () => {
     setError(null); // Reseta o erro antes de tentar o login.
 
     try {
-      // Chama a função `doLogin` do serviço para autenticar o usuário.
+      // Chama a função `doLogin` do serviço para autenticar o utilizador.
       const token = await doLogin(formData);
 
       // Armazena o token no localStorage para persistência.
       localStorage.setItem("token", token);
 
-      // Define o token no contexto para manter o usuário autenticado.
+      // Define o token no contexto para manter o utilizador autenticado.
       setToken(token);
 
       // Redireciona para a página inicial após login bem-sucedido.

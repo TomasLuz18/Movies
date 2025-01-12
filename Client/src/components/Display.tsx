@@ -138,7 +138,7 @@ const Display: React.FC<DataProps> = ({
   ]);
 
   /**
-   * Busca IDs de favoritos do backend local, se o usuário estiver logado (token).
+   * Busca IDs de favoritos do backend local, se o utilizador estiver logado (token).
    */
   useEffect(() => {
     const fetchFavoriteIds = async () => {

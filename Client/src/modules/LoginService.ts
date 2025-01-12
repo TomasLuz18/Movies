@@ -11,7 +11,7 @@ export interface LoginFormData {
 }
 
 /**
- * Faz a chamada HTTP para autenticar o usuário e retorna o token.
+ * Faz a chamada HTTP para autenticar o utilizador e retorna o token.
  */
 export async function doLogin(formData: LoginFormData) {
   const response = await axios.post("http://localhost:8080/login", formData);
