@@ -12,6 +12,8 @@ import SearchResults from "./pages/SearchResults";
 import MovieDetails from "./pages/MovieDetails";
 import Favorites from "./pages/Favorites"; // ou onde quer que esteja
 
+
+//-----------------ROTAS-----------------
 function App() {
   return (
     <AuthProvider>
@@ -21,8 +23,6 @@ function App() {
 
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<SearchResults />} />
-        {/* Outras rotas */}
-
         <Route path="/movie/:id" element={<MovieDetails />} />
         <Route path="/favorites" element={<Favorites />} />
 
