@@ -1,16 +1,33 @@
-# 🎥 Movies Web Application
+# 🎬 Movies Web Application
 
-Este projeto é uma aplicação web composta por duas partes: **Client** e **Server**, desenvolvidas com tecnologias baseadas em Node.js. A aplicação permite a gestão de utilizadores e o envio de notificacões por email, sendo potencialmente voltada para um sistema de gestão de filmes ou conteúdos audiovisuais.
+Este projeto é um **protótipo funcional de uma aplicação web para exploração de filmes**, que permite ao utilizador navegar por diferentes categorias, filtrar por género e ano, adicionar filmes aos favoritos e gerir a sua conta pessoal. Toda a aplicação comunica com uma **API backend desenvolvida em Node.js**, oferecendo uma experiência dinâmica e interativa.
 
 ---
 
-## 🪧 Estrutura do Projeto
+## 🧱 Estrutura do Projeto
 
 ```
 Movies/
 ├── Client/        # Aplicação frontend (ex: React ou outro framework TS)
-├── Server/        # Aplicação backend em Node.js
+├── Server/        # API backend em Node.js
 ```
+
+---
+
+## ⚙️ Funcionalidades
+
+### 🎞️ Frontend (Client)
+- Visualização de filmes por categoria
+- Filtros por género e ano de lançamento
+- Sistema de favoritos
+- Autenticação e gestão de conta de utilizador
+- Interface moderna e responsiva
+
+### 🔗 Backend (Server)
+- API REST em Express para fornecer dados ao frontend
+- Endpoints protegidos para operações autenticadas
+- Sistema de envio de emails (ex: confirmação de registo, notificações)
+- Configuração centralizada via `serverInfo.json`
 
 ---
 
@@ -19,12 +36,13 @@ Movies/
 ### Backend (`/Server`)
 - Node.js
 - Express
-- Envio de emails com SMTP
-- JSON para configurações de servidor (`serverInfo.json`)
+- SMTP para envio de emails
+- JSON como formato de configuração e troca de dados
 
 ### Frontend (`/Client`)
-- TypeScript (com `tsconfig.json` presente)
-- Estrutura de projeto web moderna
+- TypeScript
+- Framework moderno (ex: React — a confirmar pelo autor)
+- Gerenciador de pacotes: `npm`
 
 ---
 
@@ -36,7 +54,7 @@ git clone https://github.com/teu-usuario/movies.git
 cd movies
 ```
 
-### 2. Instalar dependências
+### 2. Instalar Dependências
 
 #### Backend
 ```bash
@@ -57,34 +75,25 @@ node build/main.js
 ```
 
 ### 4. Executar o Cliente
-> Dependendo do framework usado (ex: React, Angular, etc):
 ```bash
+cd ../Client
 npm start
 ```
 
 ---
 
-## 📁 Configurações
+## ⚙️ Configurações
 
 O ficheiro `server/serverInfo.json` contém definições importantes:
 - Porta do servidor
-- Configurações de SMTP para envio de emails
-- Informacões de host
+- SMTP (para envio de emails)
+- Informações de host
 
 ---
 
-## 📢 Funcionalidades (Backend)
+## 📦 Scripts Disponíveis
 
-- Roteamento com Express
-- Manipulação de utilizadores (`users.js`)
-- Configurações e informações do servidor (`serverInfo.js`)
-- Envio de emails via SMTP (`SMTP.js`)
-
----
-
-## 📃 Scripts Disponíveis
-
-Verifica os ficheiros `package.json` tanto no `Client/` quanto no `Server/` para encontrar scripts como:
+Consulta os ficheiros `package.json` tanto em `Client/` como em `Server/` para comandos úteis como:
 - `npm start`
 - `npm run build`
 - `npm test`
@@ -93,5 +102,6 @@ Verifica os ficheiros `package.json` tanto no `Client/` quanto no `Server/` para
 
 ## 📜 Licença
 
-Este projeto é de uso educacional. Livre para modificação, distribuição e uso não comercial.
+Este projeto é de uso educacional. Livre para modificação, distribuição e utilização não comercial.
+
 
