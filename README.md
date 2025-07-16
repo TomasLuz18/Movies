@@ -41,7 +41,7 @@ Movies/
 
 ### Frontend (`/Client`)
 - TypeScript
-- Framework moderno (ex: React — a confirmar pelo autor)
+- Framework moderno 
 - Gerenciador de pacotes: `npm`
 
 ---
